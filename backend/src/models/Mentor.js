@@ -10,6 +10,7 @@ const MentorSchema = db.Schema({
     website:String,
     bio:String,
     level:String,
+    avatar:String,
     address:[
         {
             street:String,

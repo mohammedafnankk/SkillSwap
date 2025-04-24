@@ -112,7 +112,8 @@ function Editprofile() {
     }),
   };
 
-  const saveChangesHandler = () => {
+  const saveChangesHandler = (e) => {
+    e.preventDefault()
     if (userName === "") {
       return (document.getElementById("name-require").innerHTML =
         "*Please fill out this field");
@@ -135,10 +136,13 @@ function Editprofile() {
     } else {
       document.getElementById("location-require").innerHTML = "";
     }
-    if (bio === "") {
-      return (document.getElementById("bio-require").style.color = "red");
-    } else {
-      document.getElementById("bio-require").style.color = "#6b7280";
+    if(role === "Mentor"){
+
+      if (bio === "") {
+        return (document.getElementById("bio-require").style.color = "red");
+      } else {
+        document.getElementById("bio-require").style.color = "#6b7280";
+      }
     }
 
     axiosInstencs
@@ -250,6 +254,8 @@ function Editprofile() {
                     className="text-xs text-red-600"
                   ></span>
                 </div>
+                {role === "Mentor"?
+                
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="" className="text-sm font-medium">
                     Company
@@ -261,6 +267,7 @@ function Editprofile() {
                     className="border px-3 py-2 rounded-md focus:outline-purple-600 text-sm "
                   />
                 </div>
+                :""}
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="" className="text-sm font-medium">
                     Location
@@ -276,6 +283,8 @@ function Editprofile() {
                     className="text-xs text-red-600"
                   ></span>
                 </div>
+                {role === "Mentor"?
+                
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="" className="text-sm font-medium">
                     Website
@@ -291,7 +300,19 @@ function Editprofile() {
                     className="text-xs text-red-600"
                   ></span>
                 </div>
+                :""}
+                {role === "Student"?
+                
+                <button
+                    onClick={saveChangesHandler}
+                    className="col-start-1 col-end-3 inline-flex text-white text-sm items-center justify-center px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md gap-2"
+                  >
+                    <i class="fa-regular fa-floppy-disk"></i>Save Changes
+                  </button>
+                :""}
               </form>
+              {role ==="Mentor"?
+              
               <div className="space-y-2 p-6 pt-0">
                 <label htmlFor="" className="text-sm font-medium">
                   Bio
@@ -316,6 +337,7 @@ function Editprofile() {
                   </button>
                 </div>
               </div>
+              :""}
             </div>
           </div>
         );
@@ -416,13 +438,13 @@ function Editprofile() {
       </div>
 
       <div className="py-6 px-4 bg-gray-50 pt-24 ml-[229px]">
-        <div className="space-y-8">
           <Link
             to={"/profile"}
             className="inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"
           >
             <i class="fa-solid fa-arrow-left"></i>Back to Profile
           </Link>
+        <div className="space-y-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Edit Profile</h1>
@@ -437,7 +459,7 @@ function Editprofile() {
               <i class="fa-regular fa-floppy-disk"></i>Save Changes
             </button> */}
           </div>
-          <div className="grid grid-cols-3 bg-gray-200 p-1 rounded-md mb-6">
+          <div className="grid grid-cols-2 bg-gray-200 p-1 rounded-md mb-6">
             <button
               onClick={() => setActiveTab("basic-info")}
               className={`rounded-sm px-3 py-1.5 text-sm ${
@@ -454,14 +476,14 @@ function Editprofile() {
             >
               Skills & Interests
             </button>
-            <button
+            {/* <button
               onClick={() => setActiveTab("education")}
               className={`rounded-sm px-3 py-1.5 text-sm ${
                 activeTab === "education" ? "bg-white" : "text-gray-500"
               } `}
             >
               Education & Certifications
-            </button>
+            </button> */}
           </div>
           <div>{renderContent()}</div>
         </div>

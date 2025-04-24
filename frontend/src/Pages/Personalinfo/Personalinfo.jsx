@@ -157,16 +157,19 @@ const Bio = bio.charAt(0).toUpperCase().slice(1)
       document.getElementById("skill_error").innerHTML = "";
     }
     //level
-    if (selecteLevel === "") {
-      return (document.getElementById("level_error").innerHTML =
-        "*Please select your Proficiency Level");
-    } else {
-      document.getElementById("level_error").innerHTML = "";
-    }
-    if(bio === ""){
-      return document.getElementById("bio-require").style.color="red"
-    }else{
-      document.getElementById("bio-require").style.color=""
+    if(user.role === "Mentor"){
+
+      if (selecteLevel === "") {
+        return (document.getElementById("level_error").innerHTML =
+          "*Please select your Proficiency Level");
+      } else {
+        document.getElementById("level_error").innerHTML = "";
+      }
+      if(bio === ""){
+        return document.getElementById("bio-require").style.color="red"
+      }else{
+        document.getElementById("bio-require").style.color=""
+      }
     }
 
 
@@ -402,10 +405,19 @@ const Bio = bio.charAt(0).toUpperCase().slice(1)
                     id="skill_error"
                     className="text-red-600 text-[13px] pl-[5px]"
                   ></span>
+                  {user.role === "Student"?
+                  
+                  <div className="flex justify-between items-center">
+
                   <p className="text-sm text-gray-400">
                     Add skills that represent your expertise or areas you want
                     to develop.
                   </p>
+                  <button className="inline-flex text-white text-sm items-center justify-center px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md gap-2">
+                    <i class="fa-regular fa-floppy-disk"></i>Save Information
+                  </button>
+                  </div>
+                  :""}
                 </div>
             
                 

@@ -5,8 +5,6 @@ import Home from "./Pages/Home/Home";
 import { Toaster } from "react-hot-toast";
 import Personalinfo from "./Pages/Personalinfo/Personalinfo";
 import Dashboard from "./Pages/Dashboard/Dashboard";
-import "./App.css";
-import MentorProfile from "./Pages/MentorProfile/MentorProfile";
 import Chat from "./Pages/Dashboard/Chat";
 import Navbar from "./Pages/Navbar/Navbar";
 import ProtectRoutes from "./ProtectRoutes";
@@ -17,6 +15,8 @@ import Profile from "./Pages/Dashboard/Profile";
 import Forums from "./Pages/Dashboard/Forums";
 import Settings from "./Pages/Dashboard/Settings";
 import Editprofile from "./Pages/Dashboard/Editprofile";
+import MentorProfile from "./Pages/Dashboard/MentorProfile";
+import "./App.css";
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
           <Route element={<ProtectRoutes />}>
             <Route path="/personalinfo/:id" element={<Personalinfo />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/mentorprofile" element={<MentorProfile />} />
+            <Route path="/mentor/:id" element={<MentorProfile />} />
             <Route path="/chat" element={<Chat currentUser="arun" otherUser="adhi" />}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/forums" element={<Forums/>}/>

@@ -10,7 +10,6 @@ function Sidebar() {
     { name: "Chat", to: "/chat", icon: " bx bx-chat" },
     { name: "Forums", to: "/forums", icon: " bx bx-group" },
     { name: "Profile", to: "/profile",child:"/profile/edit", icon: " bx bx-user" },
-    { name: "Settings", to: "/settings", icon: " bx bx-cog" },
   ];
   return (
     <div className="border-r w-full bg-white flex justify-between flex-col min-h-screen mr-8">

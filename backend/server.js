@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 // import { dirname, join } from 'node:path';
 import { Server } from 'socket.io';
 import path from 'path'
-
+import avatar from './src/controllers/avatar.js'
 
 const PORT = process.env.PORT
 const app = express()
@@ -30,6 +30,7 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 app.use(cors())
 app.use(express.json())
 app.use('/',authUser)
+app.use('/avatarupload',avatar)
 app.get('/protect',middle,(req,res)=>{
     res.json({msg:"protect",user:req.user})
 })
@@ -100,6 +101,7 @@ app.get('/chat', (req, res) => {
     
   })
   })
+  
 
 server.listen(PORT,
     console.log(`Server running on PORT ${PORT}`)

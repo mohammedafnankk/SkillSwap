@@ -5,6 +5,7 @@ const UserSchema = db.Schema({
     email:String,
     password:String,
     role:String,
+    avatar:String,
     address:[
         {
             street:String,

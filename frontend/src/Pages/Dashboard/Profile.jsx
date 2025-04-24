@@ -4,6 +4,7 @@ import Search from "./Search";
 import profileImg from "../../assets/images/user.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstencs from "../../axios/axiosInstence";
+import toast from "react-hot-toast";
 
 function Profile() {
   const access_token = localStorage.getItem("access_token");
@@ -83,17 +84,21 @@ function Profile() {
                   readOnly
                 />
               </div>
-              <div className="flex flex-col space-y-2">
-                <label htmlFor="" className="text-sm font-medium">
-                  Company
-                </label>
-                <input
-                  value={user.company}
-                  type="text"
-                  className="border px-3 py-2 rounded-md cursor-not-allowed focus:outline-none text-sm text-gray-600"
-                  readOnly
-                />
-              </div>
+              {user.role === "Mentor" ? (
+                <div className="flex flex-col space-y-2">
+                  <label htmlFor="" className="text-sm font-medium">
+                    Company
+                  </label>
+                  <input
+                    value={user.company}
+                    type="text"
+                    className="border px-3 py-2 rounded-md cursor-not-allowed focus:outline-none text-sm text-gray-600"
+                    readOnly
+                  />
+                </div>
+              ) : (
+                ""
+              )}
               <div className="flex flex-col space-y-2">
                 <label htmlFor="" className="text-sm font-medium">
                   Location
@@ -109,28 +114,36 @@ function Profile() {
                   readOnly
                 />
               </div>
-              <div className="flex flex-col space-y-2">
-                <label htmlFor="" className="text-sm font-medium">
-                  Website
-                </label>
-                <input
-                  value={user.website}
-                  type="text"
-                  className="border px-3 py-2 rounded-md cursor-not-allowed focus:outline-none text-sm text-gray-600"
-                  readOnly
-                />
-              </div>
-              <div className="flex flex-col space-y-2">
-                <label htmlFor="" className="text-sm font-medium">
-                  Education
-                </label>
-                <input
-                  value={user.education}
-                  type="text"
-                  className="border px-3 py-2 rounded-md cursor-not-allowed focus:outline-none text-sm text-gray-600"
-                  readOnly
-                />
-              </div>
+              {user.role === "Mentor" ? (
+                <div className="flex flex-col space-y-2">
+                  <label htmlFor="" className="text-sm font-medium">
+                    Website
+                  </label>
+                  <input
+                    value={user.website}
+                    type="text"
+                    className="border px-3 py-2 rounded-md cursor-not-allowed focus:outline-none text-sm text-gray-600"
+                    readOnly
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+              {user.role === "Mentor" ? (
+                <div className="flex flex-col space-y-2">
+                  <label htmlFor="" className="text-sm font-medium">
+                    Education
+                  </label>
+                  <input
+                    value={user.education}
+                    type="text"
+                    className="border px-3 py-2 rounded-md cursor-not-allowed focus:outline-none text-sm text-gray-600"
+                    readOnly
+                  />
+                </div>
+              ) : (
+                ""
+              )}
               <div className="flex flex-col space-y-2">
                 <label htmlFor="" className="text-sm font-medium">
                   Joined Date
@@ -147,22 +160,26 @@ function Profile() {
               </div>
             </form>
 
-            <div className="space-y-2 p-6 pt-0">
-              <label htmlFor="" className="text-sm font-medium">
-                Bio
-              </label>
-              <textarea
-                value={user.bio}
-                name=""
-                id=""
-                className="rounded-md border px-3 py-2 text-sm w-full min-h-36 cursor-not-allowed text-gray-600 focus:outline-none"
-                readOnly
-              ></textarea>
-              <p className="text-[0.8rem] text-gray-500">
-                Write a short bio about yourself, your experience, and what
-                you're looking to learn or teach.
-              </p>
-            </div>
+            {user.role === "Mentor" ? (
+              <div className="space-y-2 p-6 pt-0">
+                <label htmlFor="" className="text-sm font-medium">
+                  Bio
+                </label>
+                <textarea
+                  value={user.bio}
+                  name=""
+                  id=""
+                  className="rounded-md border px-3 py-2 text-sm w-full min-h-36 cursor-not-allowed text-gray-600 focus:outline-none"
+                  readOnly
+                ></textarea>
+                <p className="text-[0.8rem] text-gray-500">
+                  Write a short bio about yourself, your experience, and what
+                  you're looking to learn or teach.
+                </p>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         );
 
@@ -181,7 +198,7 @@ function Profile() {
                       {user.skills.map((skill, i) => (
                         <div key={i} className="flex items-center gap-2">
                           <div className="text-white inline-flex items-center rounded-full px-2.5 py-0.5 text-xs bg-purple-600">
-                            {i+1}
+                            {i + 1}
                           </div>
                           <span className="text-sm">{skill} </span>
                         </div>
@@ -204,6 +221,55 @@ function Profile() {
     }
   };
 
+  const deleteAccountPop = () => {
+    const deleteAccount = (id) => {
+      axiosInstencs
+        .delete(`/deleteuser/${id}`)
+        .then((res) => {
+          console.log(res.data);
+          toast("User Deleted!!!", { duration: 1000 });
+          navigate("/");
+        })
+        .catch((err) => console.log(err));
+    };
+
+    toast.custom(
+      (t) => (
+        <div
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex flex-col ring-1 ring-black ring-opacity-5`}
+        >
+          <div className=" p-4">
+            <div className="">
+              <div className="">
+                <p className="mt-1 text-md text-black">
+                  Are you sure you want to delete your account?
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className=" grid grid-cols-2 gap-8 border-l border-gray-200">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="w-full border border-transparent rounded-none bg-green- rounded-l-lg rounded-t-none py-2 flex items-center justify-center text-md font-medium text-green-400 hover:bg-green-400 hover:text-white"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => deleteAccount(user._id)}
+              className="w-full border border-transparent rounded-none rounded-r-lg py-2 flex items-center justify-center text-md font-medium text-red-400 rounded-t-none hover:bg-red-400 hover:text-white "
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      ),
+      { duration: 0 }
+    );
+  };
+
   return (
     <div>
       <div className=" fixed z-50">
@@ -214,7 +280,7 @@ function Profile() {
       </div>
       <div className="bg-gray-50 py-6 px-4 pt-24 ml-[229px]">
         <div className="space-y-8">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center ">
             <div>
               <h1 className="text-2xl font-bold ">My Profile</h1>
               <p className="text-gray-400">
@@ -223,8 +289,9 @@ function Profile() {
             </div>
             <div>
               <button
+              
                 onClick={() => navigate(`/profile/edit/${userID}`)}
-                className="bg-purple-600 text-white text-sm rounded-md px-4 py-2"
+                className="bg-purple-600 text-white text-sm rounded-md px-4 py-2 "
               >
                 <i class="fa-regular fa-pen-to-square mr-2"></i>Edit Profile
               </button>
@@ -241,7 +308,7 @@ function Profile() {
                         alt=""
                         className="w-32 h-32 rounded-full"
                       />
-                      <span className="">
+                      <span className="cursor-pointer" onClick={()=>toast("Edit your Profile")}>
                         <i class="absolute left-24 top-20 fa-solid fa-camera bg-purple-600 text-white rounded-full p-3"></i>
                       </span>
                     </div>
@@ -259,39 +326,51 @@ function Profile() {
                       <div className="rounded-full border px-2.5 py-0.5 text-xs flex items-center font-meduim">
                         <i class="fa-regular fa-calendar mr-2"></i>Joined{" "}
                         {user.joined_date}
+                    </div>
                       </div>
+                      {user.role==="Mentor"?
+                      
+                      <div className="rounded-md border w-full">
+                        <Link to={`/mentor/${user._id}`} className="inline-flex items-center justify-center py-2 px-4 w-full text-sm font-semibold"><i className="bx bx-user pr-2 font-semibold"></i>View Public Profile</Link>
+                      </div>
+                      :""}
+                  </div>
+                </div>
+              </div>
+              {user.role === "Mentor" ? (
+                <div className="rounded-lg shadow-md border bg-white">
+                  <div className="space-y-1.5 p-6">
+                    <h2 className="text-2xl font-semibold ">
+                      Contact Information
+                    </h2>
+                  </div>
+                  <div className="p-6 pt-0 space-y-4">
+                    <div className="flex items-center">
+                      <i class="fa-solid fa-envelope text-[#64748b] mr-2"></i>
+                      <span>{user.email}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <i class="fa-solid fa-globe mr-2 text-[#64748b]"></i>
+                      <Link
+                        to={`https://${user.website}`}
+                        className="text-purple-600 hover:underline"
+                      >
+                        Personal Website
+                      </Link>
+                    </div>
+                    <div className="flex items-center">
+                      <i class="fa-solid fa-building mr-2 text-[#64748b]"></i>
+                      <span className="">{user.company}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <i class="fa-solid fa-graduation-cap mr-2 text-[#64748b]"></i>
+                      <span className="">{user.education}</span>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="rounded-lg shadow-md border bg-white">
-                <div className="space-y-1.5 p-6">
-                  <h2 className="text-2xl font-semibold ">
-                    Contact Information
-                  </h2>
-                </div>
-                <div className="p-6 pt-0 space-y-4">
-                  <div className="flex items-center">
-                    <i class="fa-solid fa-envelope text-[#64748b] mr-2"></i>
-                    <span>{user.email}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <i class="fa-solid fa-globe mr-2 text-[#64748b]"></i>
-                    <Link to={`https://${user.website}`} className="text-purple-600 hover:underline">
-                      Personal Website
-                    </Link>
-                   
-                  </div>
-                  <div className="flex items-center">
-                    <i class="fa-solid fa-building mr-2 text-[#64748b]"></i>
-                    <span className="">{user.company}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <i class="fa-solid fa-graduation-cap mr-2 text-[#64748b]"></i>
-                    <span className="">{user.education}</span>
-                  </div>
-                </div>
-              </div>
+              ) : (
+                ""
+              )}
               {user.role === "Mentor" ? (
                 <div className="rounded-lg shadow-md border bg-white">
                   <div className="p-6">
@@ -345,7 +424,10 @@ function Profile() {
                     <h2 className="text-2xl font-semibold">Account</h2>
                   </div>
                   <div className="">
-                    <button className="w-full inline-flex justify-center gap-2 rounded-md text-sm font-medium border px-6 py-2 items-center hover:bg-red-50 text-red-600">
+                    <button
+                      onClick={deleteAccountPop}
+                      className="w-full inline-flex justify-center gap-2 rounded-md text-sm font-medium border px-6 py-2 items-center hover:bg-red-50 text-red-600"
+                    >
                       <i class="fa-regular fa-trash-can"></i> Delete Account
                     </button>
                   </div>

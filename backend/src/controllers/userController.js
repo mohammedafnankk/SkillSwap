@@ -1,6 +1,7 @@
 import { configDotenv } from "dotenv";
 configDotenv()
 import axios from 'axios'
+import multer from "multer";
 import User from "../models/User.js";
 import Mentor from "../models/Mentor.js";
 
@@ -140,6 +141,34 @@ export const sug = async (req,res)=>{
         
 //     }
 // }
+
+export const skillDelete = async (req,res)=>{
+    const id = req.params._id
+    try {
+        let user = await User.findOneAndDelete(id,req.body)
+        if(!user){
+            user = await Mentor.findOneAndDelete(id,req.body)
+        }
+        res.status(200).json({msg:user})
+    } catch (error) {
+        res.status(500).json({err:error})
+    }
+}
+
+export const deleteUser = async (req,res)=>{
+    const id = (req.params._id)
+    try {
+        let user = await User.findByIdAndDelete(id)
+        if(!user){
+            user =await Mentor.findByIdAndDelete(id)
+        }
+        res.status(200).json({msg:"user deleted"})
+    } catch (error) {
+        res.status(500).json({err:error})
+    }
+}
   
+
+
 
 export default {students , mentors , singleMentor, personalInfo , topic , singleUser,sug,edit}   
