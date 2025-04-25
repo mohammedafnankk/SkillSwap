@@ -61,9 +61,9 @@ const renderContent=()=>{
                 <div className="flex flex-col items-center text-center">
                   <div className="pb-3">
                     <img
-                      src={profileImg}
+                      src={mentor.avatar===""?profileImg:mentor.avatar}
                       alt=""
-                      className="w-32 h-32 rounded-full"
+                      className="w-32 h-32 rounded-full object-cover"
                     />
                     
                   </div>

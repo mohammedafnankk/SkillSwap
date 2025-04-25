@@ -8,11 +8,11 @@ function Search() {
           <div className="w-full max-w-2xl">
             <div className="relative w-[150%]">
               <i class="fa-solid fa-magnifying-glass absolute top-2 text-gray-500 text-sm left-3"></i>
-              <input
+              {/* <input
                 type="text"
                 placeholder="Search..."
                 className="rounded-md focus:outline-purple-700 px-3 py-2 text-sm pl-10 w-full border"
-              />
+              /> */}
             </div>
           </div>
         </div>

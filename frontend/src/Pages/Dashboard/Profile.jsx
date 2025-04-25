@@ -14,6 +14,7 @@ function Profile() {
   const [activeTab, setActiveTab] = useState("profile");
   const [userID, setUserID] = useState("");
   const [user, setUser] = useState([]);
+  // const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState("");
   const addLanguage = (e) => {
     e.preventDefault();
     console.log(language);
@@ -221,54 +222,16 @@ function Profile() {
     }
   };
 
-  const deleteAccountPop = () => {
-    const deleteAccount = (id) => {
-      axiosInstencs
-        .delete(`/deleteuser/${id}`)
-        .then((res) => {
-          console.log(res.data);
-          toast("User Deleted!!!", { duration: 1000 });
-          navigate("/");
-        })
-        .catch((err) => console.log(err));
-    };
-
-    toast.custom(
-      (t) => (
-        <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex flex-col ring-1 ring-black ring-opacity-5`}
-        >
-          <div className=" p-4">
-            <div className="">
-              <div className="">
-                <p className="mt-1 text-md text-black">
-                  Are you sure you want to delete your account?
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className=" grid grid-cols-2 gap-8 border-l border-gray-200">
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="w-full border border-transparent rounded-none bg-green- rounded-l-lg rounded-t-none py-2 flex items-center justify-center text-md font-medium text-green-400 hover:bg-green-400 hover:text-white"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => deleteAccount(user._id)}
-              className="w-full border border-transparent rounded-none rounded-r-lg py-2 flex items-center justify-center text-md font-medium text-red-400 rounded-t-none hover:bg-red-400 hover:text-white "
-            >
-              Ok
-            </button>
-          </div>
-        </div>
-      ),
-      { duration: 0 }
-    );
-  };
+  // const deleteAccount = (id) => {
+  //   axiosInstencs
+  //     .delete(`/deleteuser/${id}`)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       toast("User Deleted!!!", { duration: 1000 });
+  //       navigate("/");
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <div>
@@ -289,7 +252,6 @@ function Profile() {
             </div>
             <div>
               <button
-              
                 onClick={() => navigate(`/profile/edit/${userID}`)}
                 className="bg-purple-600 text-white text-sm rounded-md px-4 py-2 "
               >
@@ -304,11 +266,14 @@ function Profile() {
                   <div className="flex flex-col items-center text-center">
                     <div className="relative pb-3">
                       <img
-                        src={profileImg}
+                        src={user.avatar===""?profileImg:user.avatar}
                         alt=""
-                        className="w-32 h-32 rounded-full"
+                        className="w-32 h-32 rounded-full object-cover"
                       />
-                      <span className="cursor-pointer" onClick={()=>toast("Edit your Profile")}>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => toast("Edit your Profile")}
+                      >
                         <i class="absolute left-24 top-20 fa-solid fa-camera bg-purple-600 text-white rounded-full p-3"></i>
                       </span>
                     </div>
@@ -326,14 +291,21 @@ function Profile() {
                       <div className="rounded-full border px-2.5 py-0.5 text-xs flex items-center font-meduim">
                         <i class="fa-regular fa-calendar mr-2"></i>Joined{" "}
                         {user.joined_date}
+                      </div>
                     </div>
-                      </div>
-                      {user.role==="Mentor"?
-                      
+                    {user.role === "Mentor" ? (
                       <div className="rounded-md border w-full">
-                        <Link to={`/mentor/${user._id}`} className="inline-flex items-center justify-center py-2 px-4 w-full text-sm font-semibold"><i className="bx bx-user pr-2 font-semibold"></i>View Public Profile</Link>
+                        <Link
+                          to={`/mentor/${user._id}`}
+                          className="inline-flex items-center justify-center py-2 px-4 w-full text-sm font-semibold"
+                        >
+                          <i className="bx bx-user pr-2 font-semibold"></i>View
+                          Public Profile
+                        </Link>
                       </div>
-                      :""}
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>
@@ -418,14 +390,14 @@ function Profile() {
               ) : (
                 ""
               )}
-              <div className="rounded-lg shadow-md border bg-white">
+              {/* <div className="rounded-lg shadow-md border bg-white">
                 <div className="p-6">
                   <div className="pb-6">
                     <h2 className="text-2xl font-semibold">Account</h2>
                   </div>
                   <div className="">
                     <button
-                      onClick={deleteAccountPop}
+                      onClick={() => setIsDeleteAccountOpen("isOpen")}
                       className="w-full inline-flex justify-center gap-2 rounded-md text-sm font-medium border px-6 py-2 items-center hover:bg-red-50 text-red-600"
                     >
                       <i class="fa-regular fa-trash-can"></i> Delete Account
@@ -433,9 +405,35 @@ function Profile() {
                   </div>
                 </div>
               </div>
+              {isDeleteAccountOpen === "isOpen" ? (
+                <div className="rounded-lg bg-white p-6  bg-black text-white  fixed top-[40%] left-[38%]">
+                  <div>
+                    <p className="text-sm">
+                      {" "}
+                      Are you sure you want to delete your account?
+                    </p>
+                  </div>
+                  <div className="flex justify-between pt-3">
+                    <button
+                      className="px-2 py-1 rounded-md bg-green-500 hover:bg-green-600 text-sm"
+                      onClick={() => setIsDeleteAccountOpen("")}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="px-2 py-1 rounded-md bg-red-600 text-sm hover:bg-red-700"
+                      onClick={() => deleteAccount(user._id)}
+                    >
+                      Ok
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )} */}
             </div>
             <div className="col-start-2 col-end-4" defaultValue="profile">
-              <div className="grid grid-cols-3 bg-gray-200 p-1 rounded-md mb-6">
+              <div className="grid grid-cols-2 bg-gray-200 p-1 rounded-md mb-6">
                 <button
                   onClick={() => setActiveTab("profile")}
                   className={`rounded-sm px-3 py-1.5 text-sm ${
@@ -452,14 +450,14 @@ function Profile() {
                 >
                   Skills
                 </button>
-                <button
+                {/* <button
                   onClick={() => setActiveTab("settings")}
                   className={`rounded-sm px-3 py-1.5 text-sm ${
                     activeTab === "settings" ? "bg-white" : "text-gray-500"
                   } `}
                 >
                   Settings
-                </button>
+                </button> */}
               </div>
               <div>{renderContent()}</div>
             </div>

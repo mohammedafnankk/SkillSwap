@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import profileImg from "../../assets/images/user.jpg";
+import axiosInstencs from "../../axios/axiosInstence";
 
 function Sidebar() {
+  const access_token = localStorage.getItem("access_token")
   const {pathname}=useLocation()
-  
+  const [user,setUser]= useState([])
+  const [userID,setUserID]= useState("")
   const navigats = [
     { name: "Home", to: "/dashboard", icon: " bx bx-home" },
     { name: "Chat", to: "/chat", icon: " bx bx-chat" },
     { name: "Forums", to: "/forums", icon: " bx bx-group" },
     { name: "Profile", to: "/profile",child:"/profile/edit", icon: " bx bx-user" },
   ];
+  useEffect(()=>{
+    axiosInstencs.get('/protect',{
+      headers:{"Authorization" : `Bearer ${access_token}`}
+    }).then((res)=>{
+      setUserID(res.data.user.id)
+      // console.log(res.data);
+      
+    })
+  },[])
+   useEffect(()=>{
+    axiosInstencs.get(`/singleuser/${userID}`).then((res)=>{
+      setUser(res.data.msg)
+      
+    })
+   },[userID])
+
   return (
     <div className="border-r w-full bg-white flex justify-between flex-col min-h-screen mr-8">
       <div className="pt-4 pb-4">
@@ -36,13 +55,13 @@ function Sidebar() {
       <div className="border-t p-4 ">
         <Link className="text-sm flex">
           <img
-            src={profileImg}
+            src={user.avatar===""?profileImg:user.avatar}
             alt=""
-            className="h-10 w-10 overflow-hidden rounded-full"
+            className="h-10 w-10 overflow-hidden rounded-full object-cover"
           />
-          <div className="pl-4">
-            <p>Jhone</p>
-            <p className="text-gray-400 text-xs">jhone@gmail.com</p>
+          <div className="pl-3">
+            <p>{user.username}</p>
+            <p className="text-gray-400 text-xs">{user.email}</p>
           </div>
         </Link>
       </div>

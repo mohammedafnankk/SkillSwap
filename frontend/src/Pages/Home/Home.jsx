@@ -32,12 +32,10 @@ function Home() {
                   build meaningful connections.
                 </p>
                 <div className="flex gap-[15px]">
-                  <button className="text-purple-700 bg-white px-[20px] py-[10px] rounded-[8px] hover:bg-gray-100">
-                    Find a Mentor
-                  </button>
-                  <button className="bg-gradient-to-br from-indigo-700 to-purple-600 px-[20px] py-[10px] rounded-[8px]">
-                    Become a Mentor
-                  </button>
+                  <a href="#start" className="text-purple-700 bg-white px-[20px] py-[10px] rounded-[8px] hover:bg-gray-100">
+                    Get Started
+                  </a>
+                
                 </div>
                 <div></div>
               </div>
@@ -225,7 +223,7 @@ function Home() {
           </div>
         </section>
 
-        <section className="py-20 bg-gray-50">
+        <section id="start" className="py-20 bg-gray-50">
           <div className="grid grid-cols-2 px-4 gap-16 max-md:grid-cols-1">
             <div className="">
               <img src={banner2} alt="" className="rounded-lg shadow-xl" />

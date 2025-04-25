@@ -138,12 +138,12 @@ function Signup() {
               <span className="text-sm pl-[5px]">Remember me</span>
             </div>
             <div>
-              <a
-                href="#"
+              <Link
+                to="/forgotpassword"
                 className="text-sm font-medium text-purple-600 hover:text-purple-800"
               >
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </div>
           <div className="bg-[#7c3bed] text-center rounded-[10px] mt-[10px] hover:bg-purple-700">
@@ -157,7 +157,7 @@ function Signup() {
           </p>
         </form>
       </div>
-      <div className="max-lg:hidden bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex items-center p-12 h-full">
+      <div className="max-lg:hidden bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex items-center p-12 h-screen">
         <div className="">
           <h1 className="text-3xl font-bold mb-6">
             Grow your skills with SkillSwap

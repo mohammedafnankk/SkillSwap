@@ -27,6 +27,8 @@ function Editprofile() {
   const [website, setWebsite] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [avatar, setAvatar] = useState([]);
+
   const options = [
     { value: "React.js", label: "ReactJS" },
     { value: "JavaScript", label: "JavaScript" },
@@ -37,9 +39,6 @@ function Editprofile() {
     { value: "Java", label: "Java" },
     { value: "C#", label: "C#" },
   ];
-  console.log(skills);
-
-  
 
   const handleChange = (newValue) => {
     const values = newValue.map((skill) => skill.value);
@@ -53,6 +52,7 @@ function Editprofile() {
       .get(`/singleuser/${id}`)
       .then((res) => {
         // console.log(res.data);
+        setAvatar(res.data.msg);
         setUserName(res.data.msg.username);
         setEmail(res.data.msg.email);
         setRole(res.data.msg.role);
@@ -64,6 +64,7 @@ function Editprofile() {
       })
       .catch((err) => console.log(err));
   }, [id]);
+  // console.log(avatar);
 
   const customStyles = {
     control: (base, state) => ({
@@ -112,8 +113,41 @@ function Editprofile() {
     }),
   };
 
+  const handleAvatarChange = (e) => {
+    const formData = new FormData();
+    formData.append("avatar", e.target.files[0]);
+
+    axiosInstencs
+      .post(`/avatarupload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        axiosInstencs
+          .patch(`/personalinfo/${id}`, {
+            avatar: res.data.imageUrl,
+          })
+          .then((res) => {
+            console.log(res.data);
+            window.location.reload()
+          });
+      })
+      .catch((err) => console.log(err));
+  };
+  const handleRemoveAvatar = () => {
+    axiosInstencs
+      .patch(`/personalinfo/${id}`, {
+        avatar: "",
+      })
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
   const saveChangesHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (userName === "") {
       return (document.getElementById("name-require").innerHTML =
         "*Please fill out this field");
@@ -136,8 +170,7 @@ function Editprofile() {
     } else {
       document.getElementById("location-require").innerHTML = "";
     }
-    if(role === "Mentor"){
-
+    if (role === "Mentor") {
       if (bio === "") {
         return (document.getElementById("bio-require").style.color = "red");
       } else {
@@ -184,17 +217,34 @@ function Editprofile() {
                 <div className="flex gap-6">
                   <span>
                     <img
-                      src={profileImg}
+                      src={avatar.avatar === "" ? profileImg : avatar.avatar}
                       alt=""
-                      className="rounded-full h-32 w-32"
+                      className="rounded-full h-32 w-32 object-cover"
                     />
                   </span>
                   <div className="flex flex-col items-center justify-center gap-3">
-                    <button className="w-full hover:bg-slate-100 text-sm px-4 py-2 border rounded-md">
-                      <i class="fa-solid fa-arrow-up-from-bracket pr-2"></i>
-                      Upload New Picture
-                    </button>
-                    <button className="w-full hover:bg-slate-100 text-sm text-red-600 px-4 py-2 border rounded-md">
+                    <form className="">
+                      <input
+                        type="file"
+                        id="file-upload"
+                        name="avatar"
+                        onChange={handleAvatarChange}
+                        className="hidden"
+                      />
+
+                      <label
+                        type="submit"
+                        htmlFor="file-upload"
+                        className="cursor-pointer w-full hover:bg-slate-100 text-sm px-4 py-2 border rounded-md"
+                      >
+                        <i class="fa-solid fa-arrow-up-from-bracket pr-2"></i>
+                        Upload New Picture
+                      </label>
+                    </form>
+                    <button
+                      onClick={handleRemoveAvatar}
+                      className="w-full hover:bg-slate-100 text-sm text-red-600 px-4 py-2 border rounded-md"
+                    >
                       <i class="fa-regular fa-trash-can pr-2"></i>Remove Picture
                     </button>
                   </div>
@@ -254,20 +304,21 @@ function Editprofile() {
                     className="text-xs text-red-600"
                   ></span>
                 </div>
-                {role === "Mentor"?
-                
-                <div className="flex flex-col space-y-2">
-                  <label htmlFor="" className="text-sm font-medium">
-                    Company
-                  </label>
-                  <input
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    type="text"
-                    className="border px-3 py-2 rounded-md focus:outline-purple-600 text-sm "
-                  />
-                </div>
-                :""}
+                {role === "Mentor" ? (
+                  <div className="flex flex-col space-y-2">
+                    <label htmlFor="" className="text-sm font-medium">
+                      Company
+                    </label>
+                    <input
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
+                      type="text"
+                      className="border px-3 py-2 rounded-md focus:outline-purple-600 text-sm "
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="flex flex-col space-y-2">
                   <label htmlFor="" className="text-sm font-medium">
                     Location
@@ -283,61 +334,64 @@ function Editprofile() {
                     className="text-xs text-red-600"
                   ></span>
                 </div>
-                {role === "Mentor"?
-                
-                <div className="flex flex-col space-y-2">
-                  <label htmlFor="" className="text-sm font-medium">
-                    Website
-                  </label>
-                  <input
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                    type="text"
-                    className="border px-3 py-2 rounded-md focus:outline-purple-600 text-sm "
-                  />
-                  <span
-                    id="web-require"
-                    className="text-xs text-red-600"
-                  ></span>
-                </div>
-                :""}
-                {role === "Student"?
-                
-                <button
+                {role === "Mentor" ? (
+                  <div className="flex flex-col space-y-2">
+                    <label htmlFor="" className="text-sm font-medium">
+                      Website
+                    </label>
+                    <input
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                      type="text"
+                      className="border px-3 py-2 rounded-md focus:outline-purple-600 text-sm "
+                    />
+                    <span
+                      id="web-require"
+                      className="text-xs text-red-600"
+                    ></span>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {role === "Student" ? (
+                  <button
                     onClick={saveChangesHandler}
                     className="col-start-1 col-end-3 inline-flex text-white text-sm items-center justify-center px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md gap-2"
                   >
                     <i class="fa-regular fa-floppy-disk"></i>Save Changes
                   </button>
-                :""}
+                ) : (
+                  ""
+                )}
               </form>
-              {role ==="Mentor"?
-              
-              <div className="space-y-2 p-6 pt-0">
-                <label htmlFor="" className="text-sm font-medium">
-                  Bio
-                </label>
-                <textarea
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  name=""
-                  id=""
-                  className="rounded-md border px-3 py-2 text-sm w-full min-h-36 focus:outline-purple-600"
-                ></textarea>
-                <div className="flex justify-between items-center">
-                  <p id="bio-require" className="text-[0.8rem] text-gray-500">
-                    Write a short bio about yourself, your experience, and what
-                    you're looking to learn or teach.
-                  </p>
-                  <button
-                    onClick={saveChangesHandler}
-                    className="inline-flex text-white text-sm items-center justify-center px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md gap-2"
-                  >
-                    <i class="fa-regular fa-floppy-disk"></i>Save Changes
-                  </button>
+              {role === "Mentor" ? (
+                <div className="space-y-2 p-6 pt-0">
+                  <label htmlFor="" className="text-sm font-medium">
+                    Bio
+                  </label>
+                  <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    name=""
+                    id=""
+                    className="rounded-md border px-3 py-2 text-sm w-full min-h-36 focus:outline-purple-600"
+                  ></textarea>
+                  <div className="flex justify-between items-center">
+                    <p id="bio-require" className="text-[0.8rem] text-gray-500">
+                      Write a short bio about yourself, your experience, and
+                      what you're looking to learn or teach.
+                    </p>
+                    <button
+                      onClick={saveChangesHandler}
+                      className="inline-flex text-white text-sm items-center justify-center px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md gap-2"
+                    >
+                      <i class="fa-regular fa-floppy-disk"></i>Save Changes
+                    </button>
+                  </div>
                 </div>
-              </div>
-              :""}
+              ) : (
+                ""
+              )}
             </div>
           </div>
         );
@@ -401,7 +455,7 @@ function Editprofile() {
                       />
                     </div> */}
                     <CreatableSelect
-                     defaultValue={options[1]}
+                      defaultValue={options[1]}
                       isMulti
                       options={options}
                       value={selectedOptions}
@@ -438,12 +492,12 @@ function Editprofile() {
       </div>
 
       <div className="py-6 px-4 bg-gray-50 pt-24 ml-[229px]">
-          <Link
-            to={"/profile"}
-            className="inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"
-          >
-            <i class="fa-solid fa-arrow-left"></i>Back to Profile
-          </Link>
+        <Link
+          to={"/profile"}
+          className="inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"
+        >
+          <i class="fa-solid fa-arrow-left"></i>Back to Profile
+        </Link>
         <div className="space-y-8">
           <div className="flex items-center justify-between">
             <div>
