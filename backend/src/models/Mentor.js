@@ -11,6 +11,10 @@ const MentorSchema = db.Schema({
     bio:String,
     level:String,
     avatar:String,
+    rememberme:{
+        type:Boolean,
+        default:false
+    },
     address:[
         {
             street:String,

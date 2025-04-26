@@ -6,6 +6,10 @@ const UserSchema = db.Schema({
     password:String,
     role:String,
     avatar:String,
+    rememberme:{
+        type:Boolean,
+        default:false
+    },
     address:[
         {
             street:String,

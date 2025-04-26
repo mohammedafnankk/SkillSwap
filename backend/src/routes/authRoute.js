@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, login } from "../controllers/authController.js";
+import { registerUser, login, forgotPassword, resetPassword } from "../controllers/authController.js";
 import {
   students,
   mentors,
@@ -18,6 +18,8 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", login);
+router.post("/forgot-password",forgotPassword)
+router.patch("/reset-password/:_id/:token",resetPassword)
 router.get("/allstudents", students);
 router.get("/allmentors", mentors);
 router.get("/mentor/:_id", singleMentor);
@@ -28,6 +30,7 @@ router.get("/user/:_id", edit);
 router.delete("/deleteskill/:_id", skillDelete);
 router.delete("/deleteuser/:_id", deleteUser);
 router.get("/sug/:_id", sug);
+
 
 
 export default router;

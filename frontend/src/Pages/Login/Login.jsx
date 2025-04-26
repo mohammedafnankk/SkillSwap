@@ -5,7 +5,7 @@ import { setUser } from "../../redux/userSlice";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
-function Signup() {
+function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -100,7 +100,7 @@ function Signup() {
             />
             <span
               id="email_error"
-              className="text-red-600 text-[13px] pl-[5px]"
+              className="text-red-600 text-xs pl-[5px]"
             ></span>
           </div>
           <br />
@@ -128,18 +128,18 @@ function Signup() {
             </div>
             <span
               id="pass_error"
-              className="text-red-600 text-[13px] pl-[5px]"
+              className="text-red-600 text-xs pl-[5px]"
             ></span>
           </div>
           <br />
           <div className="flex justify-between">
-            <div>
-              <input type="checkbox" className="accent-purple-700 w-4 h-4 cursor-pointer"/>{" "}
+            <div className="inline-flex items-center">
+              <input type="checkbox" className="accent-purple-700 w-3 h-3 cursor-pointer" defaultChecked/>{" "}
               <span className="text-sm pl-[5px]">Remember me</span>
             </div>
             <div>
               <Link
-                to="/forgotpassword"
+                to="/forgot-password"
                 className="text-sm font-medium text-purple-600 hover:text-purple-800"
               >
                 Forgot password?
@@ -220,4 +220,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Signin;

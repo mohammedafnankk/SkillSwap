@@ -18,6 +18,7 @@ import Editprofile from "./Pages/Dashboard/Editprofile";
 import MentorProfile from "./Pages/Dashboard/MentorProfile";
 import "./App.css";
 import ForgotPassword from "./Pages/Login/ForgotPassword";
+import ResetPassword from "./Pages/Login/ResetPassword";
 
 function App() {
   return (
@@ -45,7 +46,8 @@ function App() {
             <Route path="/forums" element={<Forums/>}/>
             <Route path="/settings" element={<Settings/>}/>
             <Route path="/profile/edit/:id" element={<Editprofile/>}/>
-            <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+            <Route path="/forgot-password" element={<ForgotPassword/>}/>
+            <Route path="/reset-password/:id/:token" element={<ResetPassword/>}/>
           </Route>
           <Route path="*" element={<Notfound/>}/>
         </Routes>

@@ -4,8 +4,9 @@ import User from "../models/User.js";
 import Mentor from "../models/Mentor.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 export const registerUser = async (req, res) => {
-  const { username, email, password, role ,joined_date} = req.body;
+  const { username, email, password, role, joined_date } = req.body;
   try {
     let mentor = await Mentor.findOne({ email });
     let user = await User.findOne({ email });
@@ -37,7 +38,7 @@ export const registerUser = async (req, res) => {
         email,
         password,
         role,
-        joined_date
+        joined_date,
       });
       const salt = await bcrypt.genSalt(10);
       mentor.password = await bcrypt.hash(password, salt);
@@ -53,7 +54,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberme } = req.body;
 
   let user = await User.findOne({ email });
 
@@ -80,7 +81,7 @@ export const login = async (req, res) => {
       { expiresIn: 3600 },
       (err, token) => {
         if (err) throw err;
-        res.json({ token: token, id: user._id , skills: user.skills});
+        res.json({ token: token, id: user._id, skills: user.skills });
       }
     );
 
@@ -90,4 +91,103 @@ export const login = async (req, res) => {
   }
 };
 
-export default { registerUser, login };
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await Mentor.findOne({ email });
+    }
+    if (!user) {
+      res.json({ err: "User not found" });
+    }
+    // return res.status(200).json({user:user})
+
+    // const payload = {
+    //   user: {
+    //     id: user.id,
+    //   },
+    // };
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+    const link = `http://localhost:5173/reset-password/${user._id}/${token}`;
+
+    //  const transporter = nodemailer.createTransport({
+    //   service: "Gmail",
+    //   auth:{
+
+    //     user: "afnankk9995@gmail.com",
+    //     pass: "mohammed@#afnan9995",
+    //   },
+    //  });
+    //  await transporter.sendMail({
+    //   from:"Skill Swap",
+    //   to:email,
+    //   subject:"Reset your password",
+    //   html:`<p>Click <a href="${link}">here</a> to reset your password</p>`,
+    //  })
+    //  res.send("Reset link send")
+
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASS,
+      },
+    });
+
+    var mailOptions = {
+      from: `SkillSwap Support ${process.env.EMAIL}`,
+      to: email,
+      subject: "Reset your password",
+      html: `<div style="font-family: Arial, sans-serif; line-height:1.5;">
+        <h2>Hello 👋</h2>
+        <p>You requested to reset your password.</p>
+        <p>Click the link below to reset it:</p>
+        <a href="${link}" style="background: #4f46e5; color: white; padding: 10px 20px; border-radius: 5px; text-decoration:none;">Reset Password</a>
+        <p>If you didn’t request, you can ignore this email.</p>
+        <p>Thanks,<br>SkillSwap Team</p>
+      </div>`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.status(200).json({ msg: "Email sent: " + info.response });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const resetPassword = async (req, res) => {
+  const id = req.params._id;
+  const { token, newPassword } = req.body;
+  try {
+    // 1. Find user by token (you might store token temporarily)
+    let user = await User.findOne({ _id: id });
+    if (!user) {
+      user = await Mentor.findOne({ _id: id });
+    }
+    if (!user)
+      return res.status(400).json({ message: "User not found" });
+
+    // 2. Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // 3. Save new password
+    user.password = hashedPassword;
+    
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successfully" });
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default { registerUser, login, forgotPassword, resetPassword };
