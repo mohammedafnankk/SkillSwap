@@ -213,8 +213,8 @@ function Editprofile() {
                   personalized
                 </p>
               </div>
-              <div className="p-6 pt-0">
-                <div className="flex gap-6">
+              <div className="p-6 pt-0 max-sm:p-5">
+                <div className="flex gap-6 max-sm:flex-col max-sm:items-center">
                   <span>
                     <img
                       src={avatar.avatar === "" ? profileImg : avatar.avatar}
@@ -222,7 +222,7 @@ function Editprofile() {
                       className="rounded-full h-32 w-32 object-cover"
                     />
                   </span>
-                  <div className="flex flex-col items-center justify-center gap-3">
+                  <div className="flex flex-col items-center justify-center gap-3 ">
                     <form className="">
                       <input
                         type="file"
@@ -252,14 +252,14 @@ function Editprofile() {
               </div>
             </div>
             <div className="rounded-lg shadow-sm border bg-white">
-              <div className="flex flex-col space-y-1.5 p-6">
+              <div className="flex flex-col space-y-1.5 p-6 max-sm:p-5 max-sm:pb-2.5">
                 <h2 className="text-2xl font-semibold ">Profile Information</h2>
                 <p className="text-sm text-gray-500">
                   Update your personal information
                 </p>
               </div>
-              <form action="" className="grid grid-cols-2 p-6 gap-6">
-                <div className="flex flex-col space-y-2">
+              <form action="" className="grid grid-cols-2 p-6 gap-6 max-md:grid-cols-1 max-sm:block max-sm:p-5 ">
+                <div className="flex flex-col space-y-2 max-sm:mb-1 max-sm:space-y-1">
                   <label htmlFor="" className="text-sm font-medium">
                     Full Name
                   </label>
@@ -274,7 +274,7 @@ function Editprofile() {
                     className="text-xs text-red-600"
                   ></span>
                 </div>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 max-sm:mb-1 max-sm:space-y-1">
                   <label htmlFor="" className="text-sm font-medium">
                     Email
                   </label>
@@ -289,7 +289,7 @@ function Editprofile() {
                     className="text-xs text-red-600"
                   ></span>
                 </div>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 max-sm:mb-1 max-sm:space-y-1">
                   <label htmlFor="" className="text-sm font-medium">
                     Role
                   </label>
@@ -305,7 +305,7 @@ function Editprofile() {
                   ></span>
                 </div>
                 {role === "Mentor" ? (
-                  <div className="flex flex-col space-y-2">
+                  <div className="flex flex-col space-y-2 max-sm:mb-1 max-sm:space-y-1">
                     <label htmlFor="" className="text-sm font-medium">
                       Company
                     </label>
@@ -319,7 +319,7 @@ function Editprofile() {
                 ) : (
                   ""
                 )}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 max-sm:mb-1 max-sm:space-y-1">
                   <label htmlFor="" className="text-sm font-medium">
                     Location
                   </label>
@@ -335,7 +335,7 @@ function Editprofile() {
                   ></span>
                 </div>
                 {role === "Mentor" ? (
-                  <div className="flex flex-col space-y-2">
+                  <div className="flex flex-col space-y-2 max-sm:mb-1 max-sm:space-y-1">
                     <label htmlFor="" className="text-sm font-medium">
                       Website
                     </label>
@@ -487,22 +487,22 @@ function Editprofile() {
       <div className=" fixed z-50">
         <Sidebar />
       </div>
-      <div className="fixed w-full z-50 pl-[229px]">
+      <div className="fixed w-[83%] z-20 ml-[224px] max-lg:ml-0 max-lg:w-full">
         <Search />
       </div>
 
-      <div className="py-6 px-4 bg-gray-50 pt-24 ml-[229px]">
+      <div className="py-6 px-4 bg-gray-50 pt-24 ml-[224px] max-lg:ml-0 max-sm:px-3">
         <Link
           to={"/profile"}
           className="inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"
         >
           <i class="fa-solid fa-arrow-left"></i>Back to Profile
         </Link>
-        <div className="space-y-8">
+        <div className="space-y-8 max-sm:space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Edit Profile</h1>
-              <p className="text-gray-500">
+              <p className="text-gray-500 max-sm:text-xs">
                 Update your personal information and preferences
               </p>
             </div>

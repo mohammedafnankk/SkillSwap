@@ -13,6 +13,8 @@ import {
   deleteUser,
 } from "../controllers/userController.js";
 import multer from "multer";
+import middle from "../middleware/authmiddleware.js";
+import { createMessage, getMessage } from "../controllers/chatController.js";
 
 const router = express.Router();
 
@@ -30,6 +32,8 @@ router.get("/user/:_id", edit);
 router.delete("/deleteskill/:_id", skillDelete);
 router.delete("/deleteuser/:_id", deleteUser);
 router.get("/sug/:_id", sug);
+router.post('/send',createMessage)
+router.get('/get',getMessage)
 
 
 

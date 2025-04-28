@@ -109,25 +109,9 @@ export const forgotPassword = async (req, res) => {
     //   },
     // };
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "15m",
+      expiresIn: "1m",
     });
     const link = `http://localhost:5173/reset-password/${user._id}/${token}`;
-
-    //  const transporter = nodemailer.createTransport({
-    //   service: "Gmail",
-    //   auth:{
-
-    //     user: "afnankk9995@gmail.com",
-    //     pass: "mohammed@#afnan9995",
-    //   },
-    //  });
-    //  await transporter.sendMail({
-    //   from:"Skill Swap",
-    //   to:email,
-    //   subject:"Reset your password",
-    //   html:`<p>Click <a href="${link}">here</a> to reset your password</p>`,
-    //  })
-    //  res.send("Reset link send")
 
     var transporter = nodemailer.createTransport({
       service: "gmail",
@@ -171,20 +155,27 @@ export const resetPassword = async (req, res) => {
     if (!user) {
       user = await Mentor.findOne({ _id: id });
     }
-    if (!user)
-      return res.status(400).json({ message: "User not found" });
-
+    if (!user) return res.status(400).json({ message: "User not found" });
+   
+    if(!token){
+      return res.status(403).json({err:"No token found"})
+    }
+    try {
+      const decoded = jwt.verify(token,process.env.JWT_SECRET)
+              req.user = decoded.user
+    } catch (error) {
+      return res.status(401).json({error:'Token is invalid'})
+    }
     // 2. Hash new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
     // 3. Save new password
     user.password = hashedPassword;
-    
+
     await user.save();
 
     res.status(200).json({ message: "Password reset successfully" });
-
   } catch (error) {
     console.log(error);
   }

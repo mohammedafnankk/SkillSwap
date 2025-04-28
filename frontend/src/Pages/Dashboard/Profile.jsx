@@ -44,15 +44,15 @@ function Profile() {
       case "profile":
         return (
           <div value="profile" className="rounded-lg border bg-white shadow-md">
-            <div className="flex flex-col space-y-1.5 p-6">
+            <div className="flex flex-col space-y-1.5 p-6 max-sm:p-5">
               <h2 className="text-2xl font-semibold ">Profile Information</h2>
               <p className="text-sm text-gray-400">
                 Update your personal information
               </p>
             </div>
 
-            <form action="" className="grid grid-cols-2 p-6 gap-6">
-              <div className="flex flex-col space-y-2">
+            <form action="" className="grid grid-cols-2 p-6 gap-6 max-sm:grid-cols-1 max-sm:gap-2 max-sm:p-5">
+              <div className="flex flex-col space-y-2 max-sm:space-y-1">
                 <label htmlFor="" className="text-sm font-medium">
                   Full Name
                 </label>
@@ -63,7 +63,7 @@ function Profile() {
                   readOnly
                 />
               </div>
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 max-sm:space-y-1">
                 <label htmlFor="" className="text-sm font-medium">
                   Email
                 </label>
@@ -74,7 +74,7 @@ function Profile() {
                   readOnly
                 />
               </div>
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 max-sm:space-y-1">
                 <label htmlFor="" className="text-sm font-medium">
                   Role
                 </label>
@@ -86,7 +86,7 @@ function Profile() {
                 />
               </div>
               {user.role === "Mentor" ? (
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 max-sm:space-y-1">
                   <label htmlFor="" className="text-sm font-medium">
                     Company
                   </label>
@@ -100,7 +100,7 @@ function Profile() {
               ) : (
                 ""
               )}
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 max-sm:space-y-1">
                 <label htmlFor="" className="text-sm font-medium">
                   Location
                 </label>
@@ -116,7 +116,7 @@ function Profile() {
                 />
               </div>
               {user.role === "Mentor" ? (
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 max-sm:space-y-1">
                   <label htmlFor="" className="text-sm font-medium">
                     Website
                   </label>
@@ -131,7 +131,7 @@ function Profile() {
                 ""
               )}
               {user.role === "Mentor" ? (
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 max-sm:space-y-1">
                   <label htmlFor="" className="text-sm font-medium">
                     Education
                   </label>
@@ -145,7 +145,7 @@ function Profile() {
               ) : (
                 ""
               )}
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 max-sm:space-y-1">
                 <label htmlFor="" className="text-sm font-medium">
                   Joined Date
                 </label>
@@ -238,35 +238,38 @@ function Profile() {
       <div className=" fixed z-50">
         <Sidebar />
       </div>
-      <div className="fixed w-full z-50 pl-[229px]">
+      <div className="fixed w-[83%] z-20 ml-[224px] max-lg:ml-0 max-lg:w-full">
         <Search />
       </div>
-      <div className="bg-gray-50 py-6 px-4 pt-24 ml-[229px]">
-        <div className="space-y-8">
-          <div className="flex justify-between items-center ">
+      <div className="bg-gray-50 py-6 px-4 pt-24 ml-[224px] max-lg:ml-0 max-sm:px-3">
+        <div className="space-y-8 max-sm:space-y-4">
+          <div className="">
             <div>
-              <h1 className="text-2xl font-bold ">My Profile</h1>
-              <p className="text-gray-400">
-                Manage your profile information and account settings
-              </p>
-            </div>
-            <div>
+              <div className="flex justify-between">
+
+              <h1 className="text-2xl font-bold max-sm:text-md">My Profile</h1>
               <button
                 onClick={() => navigate(`/profile/edit/${userID}`)}
                 className="bg-purple-600 text-white text-sm rounded-md px-4 py-2 "
               >
-                <i class="fa-regular fa-pen-to-square mr-2"></i>Edit Profile
+                <i class="fa-regular fa-pen-to-square mr-2 max-sm:mr-0"></i><span className="max-sm:hidden">Edit Profile</span>
               </button>
+              </div>
+              <p className="text-gray-400 max-sm:text-xs">
+                Manage your profile information and account settings
+              </p>
+            </div>
+            <div>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8 max-md:grid-cols-1">
             <div className="space-y-6">
               <div className="rounded-lg border shadow-md bg-white">
-                <div className="p-6">
+                <div className="p-6 max-sm:p-5">
                   <div className="flex flex-col items-center text-center">
                     <div className="relative pb-3">
                       <img
-                        src={user.avatar===""?profileImg:user.avatar}
+                        src={user.avatar?user.avatar:profileImg}
                         alt=""
                         className="w-32 h-32 rounded-full object-cover"
                       />
@@ -432,7 +435,7 @@ function Profile() {
                 ""
               )} */}
             </div>
-            <div className="col-start-2 col-end-4" defaultValue="profile">
+            <div className="col-start-2 col-end-4 max-md:col-start-1 max-md:col-end-1" defaultValue="profile">
               <div className="grid grid-cols-2 bg-gray-200 p-1 rounded-md mb-6">
                 <button
                   onClick={() => setActiveTab("profile")}

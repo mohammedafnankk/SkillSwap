@@ -18,7 +18,7 @@ export const students = async (req,res)=>{
 
 export const mentors = async (req,res)=>{
     try {
-        const allMentors = await User.find({role:'mentor'})
+        const allMentors = await Mentor.find()
         if(!allMentors){return res.json({msg:'No mentors found'})}
         res.status(200).json({allMentors:allMentors})
     } catch (error) {
@@ -168,7 +168,15 @@ export const deleteUser = async (req,res)=>{
     }
 }
   
-
+export const logOut = async (req,res)=>{
+   const {access_token,refresh_token}=req.body
+   try {
+    //    const blackList
+   } catch (error) {
+       console.log(error);
+       
+   }
+}
 
 
 export default {students , mentors , singleMentor, personalInfo , topic , singleUser,sug,edit}   

@@ -43,10 +43,10 @@ const renderContent=()=>{
       <div className=" fixed z-50">
         <Sidebar />
       </div>
-      <div className="fixed w-full z-50 pl-[229px]">
+      <div className="fixed w-full z-50 pl-[224px]">
         <Search />
       </div>
-      <div className="py-6 px-4 bg-gray-50 pt-24 ml-[229px]">
+      <div className="py-6 px-4 bg-gray-50 pt-24 ml-[224px]">
         <Link
           to={"/dashboard"}
           className="inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"

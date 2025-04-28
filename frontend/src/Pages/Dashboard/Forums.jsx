@@ -8,7 +8,7 @@ function Forums() {
       <div className=" fixed z-50">
         <Sidebar />
       </div>
-      <div className="fixed w-full z-50 pl-[229px]">
+      <div className="fixed w-[83%] z-20 ml-[224px] max-lg:ml-0 max-lg:w-full">
         <Search />
       </div>
       <div className='bg-gray-50'>

@@ -33,16 +33,16 @@ function Dashboard() {
       <div className=" fixed z-50">
         <Sidebar />
       </div>
-      <div className="fixed w-[83%] z-50 ml-[229px]">
+      <div className="fixed w-[83%] z-20 ml-[224px] max-lg:ml-0 max-lg:w-full">
         <Search />
       </div>
 
-      <div className="space-y-8 py-6 px-4 ml-[229px] pt-24 bg-gray-50">
+      <div className="space-y-8 py-6 px-4 ml-[224px] max-lg:ml-0 pt-24 bg-gray-50">
         {/* <div><a href="#section-3">Mentor</a></div> */}
         <section className="rounded-lg bg-gradient-to-r from-purple-600 to-indigo-700 p-6 md:p-10 text-white">
           <div className="max-w-3xl">
             <h1 className="text-3xl font-bold mb-4">Welcome to SkillSwap</h1>
-            <p className="text-lg mb-6">
+            <p className="text-lg mb-6 max-sm:text-md">
               Connect with mentors, share knowledge, and accelerate your
               learning journey.
             </p>
@@ -57,14 +57,14 @@ function Dashboard() {
           </div>
         </section>
         <section>
-          <div className="flex justify-between mb-6 items-center">
+          <div className="flex justify-between mb-6 items-center max-sm:mb-3">
             <h2 className="text-2xl font-semibold">Explore Categories</h2>
             <button className="rounded-md px-[20px] py-[10px] text-purple-700 hover:bg-gray-100 text-sm">
               View all <i class="fa-solid fa-arrow-right pl-2"></i>
             </button>
           </div>
           <div className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
-            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow ">
+            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5">
               <div className="pb-6">
                 <div className="flex justify-between items-start">
                   <i class="fa-solid fa-code p-4 rounded-lg bg-blue-100 text-blue-700 w-fit"></i>
@@ -84,7 +84,7 @@ function Dashboard() {
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
             </div>
-            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow ">
+            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5">
               <div className="pb-6">
                 <div className="flex justify-between items-start">
                   <i class="fa-solid fa-palette p-4 rounded-lg bg-purple-100 text-purple-700 w-fit"></i>
@@ -102,7 +102,7 @@ function Dashboard() {
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
             </div>
-            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow ">
+            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5">
               <div className="pb-6">
                 <div className="flex justify-between items-start">
                   <i class="fa-regular fa-lightbulb p-4 rounded-lg bg-yellow-100 text-yellow-700 w-fit"></i>
@@ -120,7 +120,7 @@ function Dashboard() {
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
             </div>
-            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow ">
+            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5">
               <div className="pb-6">
                 <div className="flex justify-between items-start">
                   <i class="fa-solid fa-book-open p-4 rounded-lg bg-green-100 text-green-700 w-fit"></i>
@@ -144,15 +144,15 @@ function Dashboard() {
         <div>
 
         <section>
-          <div className="flex justify-between mb-6 items-center">
-            <h2 className="text-2xl font-semibold">Recommended Mentors</h2>
+          <div className="flex justify-between mb-6 items-center max-sm:mb-3">
+            <h2 className="text-2xl font-semibold">Mentors</h2>
             <button className="rounded-md px-[20px] py-[10px] text-purple-700 hover:bg-gray-100 text-sm">
               View all <i class="fa-solid fa-arrow-right pl-2"></i>
             </button>
           </div>
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
             <div className="rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-              <div className="p-6">
+              <div className="p-6 max-sm:p-3">
                 <div className="flex items-start space-x-4">
                   <span className="relative">
                     <img
@@ -186,7 +186,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-              <div className="p-6">
+              <div className="p-6 max-sm:p-3">
                 <div className="flex items-start space-x-4">
                   <span className="relative">
                     <img
@@ -220,7 +220,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-              <div className="p-6">
+              <div className="p-6 max-sm:p-3">
                 <div className="flex items-start space-x-4">
                   <span className="relative">
                     <img
@@ -255,19 +255,19 @@ function Dashboard() {
             </div>
           </div>
         </section>
-        <section className="rounded-lg bg-gray-100 p-10 mt-8">
-          <div className="flex items-center justify-between gap-6">
+        <section className="rounded-lg bg-gray-100 p-10 mt-8 max-sm:p-5">
+          <div className="flex items-center justify-between gap-6 max-sm:flex-col">
             <div>
-              <h2 className="text-2xl font-bold mb-2">
+              <h2 className="text-2xl font-bold mb-2 max-sm:text-md max-sm:mb-1">
                 Ready to share your knowledge?
               </h2>
-              <p className="text-[#94a3b8]">
+              <p className="text-[#94a3b8] max-sm:text-sm">
                 Become a mentor and help others grow while expanding your
                 network.
               </p>
             </div>
             <button className="text-sm rounded-md px-8 bg-purple-600 hover:bg-purple-700 text-white py-4">
-              Become a Mentor <i class="fa-solid fa-bolt pl-2"></i>
+            <span className="">Become a Mentor</span>   <i class="fa-solid fa-bolt pl-2"></i>
             </button>
           </div>
         </section>

@@ -16,9 +16,9 @@ import Forums from "./Pages/Dashboard/Forums";
 import Settings from "./Pages/Dashboard/Settings";
 import Editprofile from "./Pages/Dashboard/Editprofile";
 import MentorProfile from "./Pages/Dashboard/MentorProfile";
-import "./App.css";
 import ForgotPassword from "./Pages/Login/ForgotPassword";
 import ResetPassword from "./Pages/Login/ResetPassword";
+import "./App.css";
 
 function App() {
   return (
@@ -37,9 +37,9 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
+            <Route path="/dashboard" element={<Dashboard />} />
           <Route element={<ProtectRoutes />}>
             <Route path="/personalinfo/:id" element={<Personalinfo />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/mentor/:id" element={<MentorProfile />} />
             <Route path="/chat" element={<Chat currentUser="arun" otherUser="adhi" />}/>
             <Route path="/profile" element={<Profile/>}/>

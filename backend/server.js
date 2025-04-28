@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 import { Server } from 'socket.io';
 import path from 'path'
 import avatar from './src/controllers/avatar.js'
+import Message from "./src/models/Message.js";
 
 const PORT = process.env.PORT
 const app = express()
@@ -75,33 +76,90 @@ app.get('/chat', (req, res) => {
   //   });
   
   //   socket.on("disconnect", () => {
-  //     console.log("🔴 Disconnected:", socket.id);
+  //     console.log(" Disconnected:", socket.id);
   //   });
   // });
+  ///////////////////
+
+  // io.on("connection",(socket)=>{
+  //   console.log("User Connected",socket.id);
+  //   // socket.emit("welcome","welcome to the server")
+  //   //   socket.broadcast.emit("welcome",` ${socket.id} joined this server`)    
+  
+  //   socket.on("join-room", (room) => {
+  //     socket.join(room);
+  //     console.log(`User joined room ${room}`);
+      
+  //   });
+  // socket.on("message",({room , message})=>{
+  //   console.log({room,message});
+  //   io.to(room).emit("receive-message",message)
+    
+  // })
+  
+  //   socket.on("disconnect",()=>{
+  //   console.log("user disconnected ", socket.id);
+    
+  // })
+  // })
   
 
-  io.on("connection",(socket)=>{
-    console.log("User Connected",socket.id);
-    // socket.emit("welcome","welcome to the server")
-    //   socket.broadcast.emit("welcome",` ${socket.id} joined this server`)    
+  // Socket.IO real-time connection
+  // const users = {};
   
-    socket.on("join-room", (room) => {
-      socket.join(room);
-      console.log(`User joined room ${room}`);
-      
+  // io.on('connection', (socket) => {
+  //   console.log('User connected', socket.id);
+  
+  //   socket.on('addUser', (userId) => {
+  //     users[userId] = socket.id;
+  //     console.log('Users:', users);
+  //   });
+  
+  //   socket.on('sendMessage', ({ senderId, receiverId, text }) => {
+  //     const receiverSocket = users[receiverId];
+  //     if (receiverSocket) {
+  //       io.to(receiverSocket).emit('getMessage', {
+  //         senderId,
+  //         text,
+  //       });
+  //     }
+  //   });
+  
+  //   socket.on('disconnect', () => {
+  //     console.log('User disconnected', socket.id);
+  //     for (let id in users) {
+  //       if (users[id] === socket.id) {
+  //         delete users[id];
+  //       }
+  //     }
+  //   });
+  // });
+
+
+// SOCKET.IO
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  socket.on('send_message', async (data) => {
+    const { senderId, receiverId, text } = data;
+
+    // Save to MongoDB
+    const newMessage = new Message({
+      senderId,
+      receiverId,
+      text,
     });
-  socket.on("message",({room , message})=>{
-    console.log({room,message});
-    io.to(room).emit("receive-message",message)
-    
-  })
-  
-    socket.on("disconnect",()=>{
-    console.log("user disconnected ", socket.id);
-    
-  })
-  })
-  
+
+    await newMessage.save();
+
+    // Emit to receiver
+    socket.broadcast.emit('receive_message', newMessage);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
 
 server.listen(PORT,
     console.log(`Server running on PORT ${PORT}`)

@@ -11,6 +11,7 @@ function ResetPassword() {
   const [inputType,setInputType]= useState("password")
   const [cinputType,setCInputType]= useState("password")
   const [isSending,setIsSending]= useState(false)
+  const [error,setError]= useState(false)
 
   const handleChangePassword=(e)=>{
    e.preventDefault()
@@ -27,13 +28,17 @@ function ResetPassword() {
     document.getElementById("cpass_error").innerHTML=""
    }
    axiosInstencs.patch(`/reset-password/${id}/${token}`,{
+    token:token,
     newPassword:password
    }).then((res)=>{
     toast.success("Password reset successfully")
     navigate('/login')
     console.log(res.data);
     
-   }).catch((err)=>console.log(err))
+   }).catch((err)=>{
+    setError(true)
+    console.log(err)
+  })
   }
   return (
     <div className="max-lg:flex max-lg:justify-center max-lg:h-screen grid grid-cols-2 gap-[10px] bg-white rounded-[15px] max-lg:grid-cols-1 max-h-[calc(100vh-77px)] max-sm:p-[10px]  ">
@@ -47,6 +52,10 @@ function ResetPassword() {
           </Link>
         </div>
         <div className="border rounded-lg shadow-sm">
+          {error === false?
+          
+          <div>
+
           <div className="p-6 space-y-1.5 flex flex-col max-sm:pb-[20px ">
             <h1 className="text-2xl font-semibold">Rest Password</h1>
             <p className="text-sm text-gray-500">
@@ -113,30 +122,15 @@ function ResetPassword() {
                 ></span>
               </div>
               <div className=" text-center rounded-md bg-[#7c3bed] hover:bg-purple-700">
-                {/* <button onClick={handleChangePassword} className="text-sm text-white p-[10px] inline-flex gap-1 items-center">
-                  {isSending ===true?
-                  
-                  <p className="h-4 w-4 border-white border-2 border-t-transparent rounded-full animate-spin"></p>
-                  :""}
-                  {isSending ===true?"Loading...":"Reset Password"}
-                  
-                </button> */}
+                
                 <button onClick={handleChangePassword} className="text-sm text-white p-[10px] inline-flex gap- items-center">Reset Password</button>
               </div>
 
             </form>
-          
-          <div className="flex justify-center items-center border-t p-5">
-            <p className="text-sm text-gray-500">
-              Remember your password?{" "}
-              <Link className="text-sm text-purple-700" to={"/login"}>
-                Sign in
-              </Link>
-            </p>
           </div>
-
-          {/* errro */}
-          {/* <div className="p-6">
+        : 
+        
+           <div className="p-6">
           <div className="pb-6 space-y-1.5 flex flex-col max-sm:pb-[20px ">
             <h1 className="text-2xl font-semibold">Invalid Reset Link</h1>
             <p className="text-sm text-gray-500">
@@ -154,7 +148,19 @@ function ResetPassword() {
             <Link to={'/forgot-password'} className="text-white text-sm">Request New Link</Link>
           </div>
           </div>
-          </div> */}
+          </div> 
+        }
+          
+          <div className="flex justify-center items-center border-t p-5">
+            <p className="text-sm text-gray-500">
+              Remember your password?{" "}
+              <Link className="text-sm text-purple-700" to={"/login"}>
+                Sign in
+              </Link>
+            </p>
+          </div>
+
+          {/* errro */}
         </div>
       </div>
       <div className="max-lg:hidden bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex items-center p-12 h-screen">
