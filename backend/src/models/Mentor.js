@@ -11,6 +11,7 @@ const MentorSchema = db.Schema({
     bio:String,
     level:String,
     avatar:String,
+    chats:[{}],
     rememberme:{
         type:Boolean,
         default:false

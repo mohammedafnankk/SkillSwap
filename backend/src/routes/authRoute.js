@@ -11,6 +11,8 @@ import {
   edit,
   skillDelete,
   deleteUser,
+  Chats,
+  selectedMentors,
 } from "../controllers/userController.js";
 import multer from "multer";
 import middle from "../middleware/authmiddleware.js";
@@ -34,6 +36,8 @@ router.delete("/deleteuser/:_id", deleteUser);
 router.get("/sug/:_id", sug);
 router.post('/send',createMessage)
 router.get('/get',getMessage)
+router.patch('/add-chat/:_id',Chats)
+router.get('/selected',selectedMentors)
 
 
 

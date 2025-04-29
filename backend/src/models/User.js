@@ -6,6 +6,7 @@ const UserSchema = db.Schema({
     password:String,
     role:String,
     avatar:String,
+    chats:[{}],
     rememberme:{
         type:Boolean,
         default:false

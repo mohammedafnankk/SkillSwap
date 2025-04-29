@@ -1,9 +1,11 @@
 import { configDotenv } from "dotenv";
 configDotenv()
 import axios from 'axios'
+import mongoose from "mongoose";
 import multer from "multer";
 import User from "../models/User.js";
 import Mentor from "../models/Mentor.js";
+import e from "express";
 
 
 export const students = async (req,res)=>{
@@ -178,5 +180,40 @@ export const logOut = async (req,res)=>{
    }
 }
 
+export const Chats = async (req,res)=>{
+    try {
+        const id = req.params._id
+        let user = await User.findByIdAndUpdate(id,req.body)
+        if(!user){
+               user=await Mentor.findByIdAndUpdate(id,req.body)
+        }
+        if(!user){
+            return res.json({msg:"User not found"})
+        }
+        res.status(200).json({msg:user})
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error})
+        
+    }
+}
 
-export default {students , mentors , singleMentor, personalInfo , topic , singleUser,sug,edit}   
+export const selectedMentors = async (req,res)=>{
+    try {
+        const idss = req.body
+        console.log(idss);
+        
+        // const {ObjectId}=mongoose.Types;
+        const rawIds = [{ id:"6810a9f870a953c354fdc8bd"}];
+
+const ids = rawIds.map(obj => obj.id);
+        const mentors = await Mentor.find({ _id: { $in: ids.map(id => new mongoose.Types.ObjectId(id)) } })
+        res.status(200).json({msg:mentors})
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+export default {students , mentors , singleMentor, personalInfo , topic , singleUser,sug,edit,Chats,selectedMentors}   
