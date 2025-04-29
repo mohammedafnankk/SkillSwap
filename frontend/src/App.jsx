@@ -31,7 +31,6 @@ function App() {
       }}
       />
       <Router>
-        {/* <Navbar /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
@@ -41,9 +40,9 @@ function App() {
           <Route element={<ProtectRoutes />}>
             <Route path="/personalinfo/:id" element={<Personalinfo />} />
             <Route path="/mentor/:id" element={<MentorProfile />} />
-            <Route path="/chat" element={<Chat currentUser="arun" otherUser="adhi" />}/>
-            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/chat" element={<Chat/>}/>
             <Route path="/forums" element={<Forums/>}/>
+            <Route path="/profile" element={<Profile/>}/>
             <Route path="/settings" element={<Settings/>}/>
             <Route path="/profile/edit/:id" element={<Editprofile/>}/>
             <Route path="/forgot-password" element={<ForgotPassword/>}/>

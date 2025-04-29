@@ -2,10 +2,10 @@ import Message from "../models/Message.js";
 
 export const createMessage = async(req,res)=>{
    try {
-    const {senderId,recieverId,text}= req.body
+    const {senderId,receiverId,text}= req.body
 const message = new Message({
     senderId,
-    recieverId,
+    receiverId,
     text
 })
 const savedMessage = await message.save()
@@ -34,4 +34,4 @@ export const getMessage = async(req,res)=>{
       }
 }
 
-export default {createMessage}
+export default {createMessage ,getMessage}

@@ -1,8 +1,8 @@
 import db from "../config/db.js";
 
 const MessageSchema = db.Schema({
-  sender: { type: db.Schema.Types.ObjectId, ref: "User" },
-  receiver: { type: db.Schema.Types.ObjectId, ref: "User" },
+  senderId: { type: db.Schema.Types.ObjectId, ref: "User" },
+  receiverId: { type: db.Schema.Types.ObjectId, ref: "User" },
   text: String,
   createdAt: { type: Date, default: Date.now },
 });

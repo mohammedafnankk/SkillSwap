@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import banner from "../../assets/images/Lily1.jpg";
 import banner2 from "../../assets/images/Digital (1).jpg";
 import userProfile from "../../assets/images/user.jpg";
-import logo from "../../assets/images/skill swap.png";
 import { Link } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
 
 function Home() {
   const [styles] = useState("text-gray-400 hover:text-white");
-   
+
   // const Footer=[
   //   {heading:"Platform" ,aTags:["How it Works","Find a Mentor","Become a Mentor","Skill Exchange","Community Forums"]},
   //   {heading:"Platform" ,aTags:["How it Works","Find a Mentor","Become a Mentor","Skill Exchange","Community Forums"]},
@@ -18,29 +18,33 @@ function Home() {
 
   return (
     <div>
+      <Navbar category="#categories" start="#getstart" works="#works" />
+
       <main>
-        <section className="bg-gradient-to-br from-purple-600 to-indigo-700 text-white py-20">
-          <div className="container px-4 grid grid-cols-2 max-md:grid-cols-1">
+        <section id="home" className="bg-gradient-to-br from-purple-600 to-indigo-700 text-white py-20 max-sm:pb-10">
+          <div className=" px-4 grid grid-cols-2 max-md:grid-cols-1 max-sm:px-5">
             <div className="flex items-center max-md:mb-6">
               <div>
-                <h1 className="text-4xl font-bold mb-6">
+                <h1 className="text-4xl font-bold mb-6 max-sm:mb-2">
                   Connect, Learn, and Grow Together
                 </h1>
-                <p className="text-purple-100 text-xl mb-8">
+                <p className="text-purple-100 text-xl mb-8 max-sm:text-[17px]">
                   SkillSwap brings together mentors and learners in a
                   collaborative community. Share knowledge, develop skills, and
                   build meaningful connections.
                 </p>
                 <div className="flex gap-[15px]">
-                  <a href="#start" className="text-purple-700 bg-white px-[20px] py-[10px] rounded-[8px] hover:bg-gray-100">
+                  <a
+                    href="#getstart"
+                    className="text-purple-700 bg-white px-[20px] py-[10px] rounded-[8px] hover:bg-gray-100"
+                  >
                     Get Started
                   </a>
-                
                 </div>
                 <div></div>
               </div>
             </div>
-            <div >
+            <div className="max-sm:hidden">
               <img src={banner} alt="" className="rounded-[10px]" />
             </div>
           </div>
@@ -73,13 +77,13 @@ function Home() {
             </div>
           </div>
         </section>
-        <section className="py-20 bg-gray-50" id="features">
+        <section className="py-20 bg-gray-50 max-sm:py-10" id="works">
           <div className="px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4">
-                How MentorCircle Works
+            <div className="text-center mb-16 max-sm:mb-9">
+              <h2 className="text-3xl font-bold mb-4 max-sm:mb-2">
+                How SkillSwap Works
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto max-sm:text-[17px]">
                 Our platform makes it easy to connect with mentors, exchange
                 skills, and grow your knowledge.
               </p>
@@ -146,13 +150,13 @@ function Home() {
           </div>
         </section>
 
-        <section className="py-20 bg-white ">
+        <section id="categories" className="py-20 bg-white max-sm:py-10">
           <div className="container px-4">
-            <div className="text-center mb-16">
-              <h1 className="text-3xl font-bold mb-4">
+            <div className="text-center mb-16 max-sm:mb-9">
+              <h1 className="text-3xl font-bold mb-4 max-sm:mb-2">
                 Explore Skill Categories
               </h1>
-              <p className="text-xl text-gray-600">
+              <p className="text-xl text-gray-600 max-sm:text-[17px]">
                 Discover mentors across a wide range of disciplines and
                 specialties.
               </p>
@@ -216,14 +220,17 @@ function Home() {
               </div>
             </div>
             <div className="text-center py-14">
-              <Link to={'/dashboard'} className="text-sm font-medium rounded-md bg-purple-600 hover:bg-purple-700 px-8 py-3.5 h-11 text-white text-center">
+              <Link
+                to={"/dashboard"}
+                className="text-sm font-medium rounded-md bg-purple-600 hover:bg-purple-700 px-8 py-3.5 h-11 text-white text-center"
+              >
                 View All Categories
               </Link>
             </div>
           </div>
         </section>
 
-        <section id="start" className="py-20 bg-gray-50">
+        <section id="getstart" className="py-20 bg-gray-50 max-sm:py-10">
           <div className="grid grid-cols-2 px-4 gap-16 max-md:grid-cols-1">
             <div className="">
               <img src={banner2} alt="" className="rounded-lg shadow-xl" />
@@ -277,7 +284,10 @@ function Home() {
                   </div>
                 </div>
                 <div className="mt-9 pl-2 max-md:text-center">
-                  <Link  to={'/signup'} className="text-white rounded-md text-sm font-medium bg-purple-600 hover:bg-purple-700 px-4 py-2">
+                  <Link
+                    to={"/signup"}
+                    className="text-white rounded-md text-sm font-medium bg-purple-600 hover:bg-purple-700 px-4 py-2"
+                  >
                     Get Started Now
                   </Link>
                 </div>
@@ -286,11 +296,13 @@ function Home() {
           </div>
         </section>
 
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-white max-sm:py-10">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h1 className="text-3xl font-bold mb-4">What Our Users Say</h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <div className="text-center mb-16 max-sm:mb-9">
+              <h1 className="text-3xl font-bold mb-4 max-sm:mb-2">
+                What Our Users Say
+              </h1>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto max-sm:text-[17px]">
                 Hear from mentors and learners who have experienced the power of
                 SkillSwap.
               </p>
@@ -364,40 +376,51 @@ function Home() {
           </div>
         </section>
 
-        <section className="py-20 bg-gradient-to-br from-purple-600 to-indigo-700 text-white">
+        <section className="py-20 bg-gradient-to-br from-purple-600 to-indigo-700 text-white max-sm:py-10">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">
+            <h2 className="text-3xl font-bold mb-6 max-sm:mb-2">
               Ready to Join Our Community?
             </h2>
-            <p className="text-xl mb-8 mx-auto text-purple-100">
+            <p className="text-xl mb-8 mx-auto text-purple-100 max-sm:text-[17px]">
               Start your journey today. Connect with mentors, share your
               knowledge, and grow your skills.
             </p>
           </div>
           <div className="flex justify-center gap-4 max-sm:flex-col text-center items-center">
-            <Link to={'/signup'} className="items-center bg-white text-purple-700 hover:bg-gray-100 px-8 rounded-md py-2.5 ">
+            <Link
+              to={"/signup"}
+              className="items-center bg-white text-purple-700 hover:bg-gray-100 px-8 rounded-md py-2.5 "
+            >
               Sign Up Now
             </Link>
-            <Link to={'/login'} className="items-center bg-gradient-to-br from-indigo-700 to-purple-600 px-8 rounded-md py-2.5">
+            <Link
+              to={"/login"}
+              className="items-center bg-gradient-to-br from-indigo-700 to-purple-600 px-8 rounded-md py-2.5"
+            >
               Sign In
             </Link>
           </div>
         </section>
       </main>
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-12 max-sm:py-10">
         <div className="container px-4 mx-auto">
           <div className="grid grid-cols-4 gap-8 max-md:grid-cols-1">
             <div>
-              <a href="/" className="flex items-center mb-4">
-                <img src={logo} alt="" className="w-14" />
-                <span className="text-2xl font-bold">SkillSwap</span>
+              <a
+                href="#home"
+                className="inline-flex items-center font-bold mb-2"
+              >
+                <i class="fa-solid fa-graduation-cap text-3xl  pr-1"></i>
+                <h1 className="font-sans text-xl font-bold  ">
+                  SkillSwap
+                </h1>
               </a>
+             
               <p className="text-gray-400 mb-4">
                 Connecting mentors and learners in a collaborative community.
               </p>
               <div className="flex space-x-4 text-2xl">
-                         
-              {/* {Footer.map((item,i)=>(
+                {/* {Footer.map((item,i)=>(
               <div key={i}>
               <h3 className="text-lg font-semibold mb-4">{Footer.heading}</h3>
                 <ul className="space-y-2">

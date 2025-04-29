@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstencs from "../../axios/axiosInstence";
 import toast from "react-hot-toast";
+import Navbar from "../Navbar/Navbar";
 
 function Signup() {
   const navigate = useNavigate();
@@ -124,7 +125,10 @@ function Signup() {
   };
 
   return (
-    <div className="pt-[20px]">
+    <div>
+        <Navbar />
+     
+    <div className="pt-[20px] max-sm:pt-[70px]">
       <div className="bg-[#F5F5F]  max-sm:p-[10px]">
         <div className="grid grid-cols-2 gap-[10px] bg-white rounded-[15px] max-sm:grid-cols-1">
           <div className="flex flex-col justify-center p-[60px] max-sm:p-[10px] ">
@@ -352,6 +356,7 @@ function Signup() {
         </div>
       </div>
     </div>
+                  </div>
   );
 }
 

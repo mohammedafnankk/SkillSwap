@@ -32,8 +32,9 @@ function Search() {
         </div>
         <div>
           <button className="inline-flex items-center justify-center rounded-md relative">
-            <i class="text-lg bx bx-bell p-1 px-2 hover:bg-gray-200 rounded-md"></i>
-            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500"></span>
+            {/* <i class="text-lg bx bx-bell p-1 px-2 hover:bg-gray-200 rounded-md"></i> */}
+            <i class="fa-regular fa-bell fa-shake p-1 px-2 hover:bg-gray-200 rounded-md text-lg "></i>
+            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-700 animate-ping"></span>
           </button>
         </div>
       </div>
