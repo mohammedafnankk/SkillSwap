@@ -6,7 +6,7 @@ const UserSchema = db.Schema({
     password:String,
     role:String,
     avatar:String,
-    chats:[{}],
+    chats:[{ type: db.Schema.Types.ObjectId, ref: "User" },],
     rememberme:{
         type:Boolean,
         default:false
@@ -21,7 +21,11 @@ const UserSchema = db.Schema({
         }
     ],
     skills:[],
-    joined_date: String
+    joined_date: String,
+    isOnline:{
+        type:Boolean,
+        default:false
+    }
     
 
 })

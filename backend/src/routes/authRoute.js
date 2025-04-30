@@ -12,7 +12,7 @@ import {
   skillDelete,
   deleteUser,
   Chats,
-  selectedMentors,
+  myMentors,
 } from "../controllers/userController.js";
 import multer from "multer";
 import middle from "../middleware/authmiddleware.js";
@@ -37,7 +37,7 @@ router.get("/sug/:_id", sug);
 router.post('/send',createMessage)
 router.get('/get',getMessage)
 router.patch('/add-chat/:_id',Chats)
-router.get('/selected',selectedMentors)
+router.get('/my-mentors',myMentors)
 
 
 

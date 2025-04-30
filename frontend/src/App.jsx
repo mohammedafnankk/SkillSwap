@@ -39,7 +39,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           <Route element={<ProtectRoutes />}>
             <Route path="/personalinfo/:id" element={<Personalinfo />} />
-            <Route path="/mentor/:id" element={<MentorProfile />} />
+            <Route path="/mentor/:id/:myId" element={<MentorProfile />} />
             <Route path="/chat" element={<Chat/>}/>
             <Route path="/forums" element={<Forums/>}/>
             <Route path="/profile" element={<Profile/>}/>

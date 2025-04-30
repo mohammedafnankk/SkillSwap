@@ -67,6 +67,11 @@ function Chat() {
         },
       })
       .then((res) => {
+        //     const to = new Date()
+
+        // const dd = datee.getHours()+":"+ datee.getMinutes()
+        // console.log(dd);
+
         setMessages(res.data);
         //  console.log(res.data);
 
@@ -97,10 +102,12 @@ function Chat() {
     };
   }, []);
 
-
-
   const sendMessage = (e) => {
     e.preventDefault();
+    const sendTime = new Date();
+    const hour = sendTime.getHours();
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const time = sendTime.getHours() + ":" + sendTime.getMinutes() + " " + ampm;
     if (message === "") {
       return;
     }
@@ -108,6 +115,7 @@ function Chat() {
       senderId: currentUser._id,
       receiverId: selectedUser._id,
       text: message,
+      time: time,
     };
 
     socket.emit("send_message", newMessage);
@@ -119,6 +127,7 @@ function Chat() {
     setIsOpen("");
     setIsSelected(false);
   };
+
   return (
     <div className="">
       <div className=" fixed z-50">
@@ -141,7 +150,7 @@ function Chat() {
                   defaultValue="direct"
                   className="inline-flex items-center justify-center rounded-md bg-gray-200 p-1 w-full"
                 > */}
-                  {/* <button
+            {/* <button
                     onClick={() => setActiveTab("direct")}
                     className={`text-sm px-12 py-1.5 rounded-sm font-medium ${
                       activeTab === "direct"
@@ -151,10 +160,10 @@ function Chat() {
                   >
                     Direct
                   </button> */}
-                  {/* <button onClick={()=>setActiveTab("groups")} className={`text-sm px-12 py-1.5 rounded-sm font-medium ${activeTab === "groups"?"bg-white":"text-gray-500"}`}>
+            {/* <button onClick={()=>setActiveTab("groups")} className={`text-sm px-12 py-1.5 rounded-sm font-medium ${activeTab === "groups"?"bg-white":"text-gray-500"}`}>
                     Groups
                   </button> */}
-                {/* </div>
+            {/* </div>
               </div>
             </div> */}
             <div className="p-4 border-b">
@@ -167,10 +176,14 @@ function Chat() {
 
             <div className="overflow-y-auto h-64">
               {mentors.map((mentor, i) => (
-                <div key={i} >
+                <div key={i}>
                   <button
                     onClick={() => messageSelecte(mentor._id)}
-                    className={`w-full flex items-start p-2 rounded-d border-b ${mentor._id === selectedUser._id?"bg-purple-100":"bg-white hover:bg-gray-50"}`}
+                    className={`w-full flex items-start p-2 rounded-d border-b ${
+                      mentor._id === selectedUser._id
+                        ? "bg-purple-100"
+                        : "bg-white hover:bg-gray-50"
+                    }`}
                   >
                     <div className="relative">
                       <span className="h-10 w-10 relative overflow-hidden rounded-full ">
@@ -227,13 +240,22 @@ function Chat() {
                     }`}
                   >
                     <span
-                      className={`max-w-[80%] ${
+                      className={`max-w-[80%] inline-flex flex-col ${
                         m.senderId === currentUser._id
-                          ? "bg-purple-600 text-white"
-                          : " bg-gray-100 text-gray-900"
-                      } rounded-lg px-4 py-2`}
+                          ? "bg-purple-600 text-white items-start"
+                          : " bg-gray-100 text-gray-900 "
+                      } rounded-lg px-3 py-1.5`}
                     >
                       {m.text}
+                      <span
+                        className={`text-xs ${
+                          m.senderId === currentUser._id
+                            ? "text-gray-200"
+                            : "text-gray-500"
+                        }`}
+                      >
+                        {m.time}
+                      </span>
                     </span>
                   </div>
                 ))}

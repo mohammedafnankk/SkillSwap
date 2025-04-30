@@ -139,15 +139,18 @@ app.get('/chat', (req, res) => {
 // SOCKET.IO
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
-
+  const userId = socket.handshake.query.userId;
+  console.log(userId);
+  
   socket.on('send_message', async (data) => {
-    const { senderId, receiverId, text } = data;
+    const { senderId, receiverId, text,time} = data;
 
     // Save to MongoDB
     const newMessage = new Message({
       senderId,
       receiverId,
       text,
+      time,
     });
 
     await newMessage.save();

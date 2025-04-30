@@ -5,6 +5,7 @@ const MessageSchema = db.Schema({
   receiverId: { type: db.Schema.Types.ObjectId, ref: "User" },
   text: String,
   createdAt: { type: Date, default: Date.now },
+  time:{type :String }
 });
 const Message = db.model("Message", MessageSchema);
 export default Message;

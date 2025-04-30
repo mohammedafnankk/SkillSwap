@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axiosInstencs from "../../axios/axiosInstence";
 import profileImg from "../../assets/images/user.jpg";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Search from "./Search";
 
 function MentorProfile() {
-  const { id } = useParams();
+  const { id ,myId} = useParams();
+  const navigate=useNavigate()
   const [mentor, setMentor] = useState([]);
 const [activeTab,setActiveTab]=useState("about")
+const [chatPrev,setChatPrev]= useState([])
+const [isTrue,setIsTrue]= useState(false)
+// console.log(id);
+
+
 
 const renderContent=()=>{
     switch (activeTab) {
@@ -37,7 +43,56 @@ const renderContent=()=>{
     axiosInstencs.get(`/mentor/${id}`).then((res) => {
       setMentor(res.data.mentor);
     });
-  }, []);
+  }, [id]);
+  useEffect(()=>{
+    axiosInstencs.get(`/singleuser/${myId}`).then((res)=>{
+      // console.log(res.data.msg);
+      setChatPrev(res.data.msg.chats)
+      
+      
+    }).catch((err)=>console.log(err))
+  },[myId,id])
+  
+  const message=()=>{
+    chatPrev.map((c)=>c  === id?setIsTrue(false):setIsTrue(true));
+      console.log(chatPrev);
+      if(chatPrev.length===0){
+        setIsTrue(true)
+        console.log("oo");
+        
+      }
+    
+     
+    {isTrue === true?
+      axiosInstencs.patch(`/add-chat/${myId}`,{
+         chats:[...chatPrev,id]
+      }).then((res)=>{
+        console.log(res.data);
+        // navigate('/chat')
+      }).catch((err)=>console.log(err))
+     :
+      //  navigate('/chat')
+      console.log("user already in db");
+    }
+   
+    // {chatPrev.map((c)=>
+    //   c === id || c===""? console.log("true")
+    //    : console.log("false")
+      
+
+      // axiosInstencs.patch(`/add-chat/${myId}`,{
+      //    chats:[...chatPrev,id]
+      // }).then((res)=>{
+      //   console.log(res.data);
+      //   navigate('/chat')
+      // }).catch((err)=>console.log(err))
+    // ) }
+
+    // {chatPrev.map((c)=>(
+    //   console.log(c ,"ids")
+    // ))}
+  }
+
   return (
     <div>
       <div className=" fixed z-50">
@@ -61,7 +116,7 @@ const renderContent=()=>{
                 <div className="flex flex-col items-center text-center">
                   <div className="pb-3">
                     <img
-                      src={mentor.avatar===""?profileImg:mentor.avatar}
+                      src={mentor.avatar?mentor.avatar:profileImg}
                       alt=""
                       className="w-32 h-32 rounded-full object-cover"
                     />
@@ -83,7 +138,7 @@ const renderContent=()=>{
                   </div>
 
                   <div className="w-full text-white">
-                    <button className=" inline-flex items-center justify-center w-full rounded-md text-sm px-4 py-2 bg-purple-600 hover:bg-purple-700"><i class="fa-regular fa-message pr-2"></i>Message</button>
+                    <button onClick={message} className=" inline-flex items-center justify-center w-full rounded-md text-sm px-4 py-2 bg-purple-600 hover:bg-purple-700"><i class="fa-regular fa-message pr-2"></i>Message</button>
                     <button></button>
                   </div>
                 </div>

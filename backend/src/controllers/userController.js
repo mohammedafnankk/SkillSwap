@@ -199,7 +199,7 @@ export const Chats = async (req,res)=>{
     }
 }
 
-export const selectedMentors = async (req,res)=>{
+export const myMentors = async (req,res)=>{
     try {
         const idss = req.body
         console.log(idss);
@@ -216,4 +216,4 @@ const ids = rawIds.map(obj => obj.id);
     }
 }
 
-export default {students , mentors , singleMentor, personalInfo , topic , singleUser,sug,edit,Chats,selectedMentors}   
+export default {students , mentors , singleMentor, personalInfo , topic , singleUser,sug,edit,Chats,myMentors}   

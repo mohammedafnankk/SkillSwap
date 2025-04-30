@@ -11,7 +11,7 @@ const MentorSchema = db.Schema({
     bio:String,
     level:String,
     avatar:String,
-    chats:[{}],
+    chats:[{ type: db.Schema.Types.ObjectId, ref: "User" },],
     rememberme:{
         type:Boolean,
         default:false
@@ -27,7 +27,11 @@ const MentorSchema = db.Schema({
     ],
     skills:[],
     skill_discription:String,
-    joined_date: String
+    joined_date: String,
+    isOnline:{
+        type:Boolean,
+        default:false
+    }
 
 
 })
