@@ -13,6 +13,7 @@ import {
   deleteUser,
   Chats,
   myMentors,
+  findS,
 } from "../controllers/userController.js";
 import multer from "multer";
 import middle from "../middleware/authmiddleware.js";
@@ -38,7 +39,7 @@ router.post('/send',createMessage)
 router.get('/get',getMessage)
 router.patch('/add-chat/:_id',Chats)
 router.get('/my-mentors',myMentors)
-
+router.post('/me',findS)
 
 
 export default router;

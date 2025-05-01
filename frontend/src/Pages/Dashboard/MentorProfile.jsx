@@ -12,6 +12,9 @@ function MentorProfile() {
 const [activeTab,setActiveTab]=useState("about")
 const [chatPrev,setChatPrev]= useState([])
 const [isTrue,setIsTrue]= useState(false)
+const [mChat,setMchat]= useState([])
+const [mY,setMy]= useState("")
+const [mIsTrue,setMisTrue]= useState(false)
 // console.log(id);
 
 
@@ -42,38 +45,68 @@ const renderContent=()=>{
   useEffect(() => {
     axiosInstencs.get(`/mentor/${id}`).then((res) => {
       setMentor(res.data.mentor);
+      console.log(res.data.mentor);
+      setMchat(res.data.mentor.chats)
     });
   }, [id]);
+  
   useEffect(()=>{
     axiosInstencs.get(`/singleuser/${myId}`).then((res)=>{
       // console.log(res.data.msg);
       setChatPrev(res.data.msg.chats)
-      
+      setMy(res.data.msg.role)
       
     }).catch((err)=>console.log(err))
   },[myId,id])
   
   const message=()=>{
-    chatPrev.map((c)=>c  === id?setIsTrue(false):setIsTrue(true));
+    console.log(mY);
+    
+
+      chatPrev.map((c)=>c  === id?setIsTrue(false):setIsTrue(true));
       console.log(chatPrev);
       if(chatPrev.length===0){
         setIsTrue(true)
-        console.log("oo");
-        
+          console.log("oo");
+          
+        }
+      
+       
+      {isTrue === true?
+        axiosInstencs.patch(`/add-chat/${myId}`,{
+           chats:[...chatPrev,id]
+        }).then((res)=>{
+          console.log(res.data);
+          // navigate('/chat')
+        }).catch((err)=>console.log(err))
+       :
+        //  navigate('/chat')
+        console.log("user already in db");
       }
-    
-     
-    {isTrue === true?
-      axiosInstencs.patch(`/add-chat/${myId}`,{
-         chats:[...chatPrev,id]
-      }).then((res)=>{
-        console.log(res.data);
-        // navigate('/chat')
-      }).catch((err)=>console.log(err))
-     :
-      //  navigate('/chat')
-      console.log("user already in db");
-    }
+   
+
+      mChat.map((c)=>c  === id?setMisTrue(false):setMisTrue(true));
+      console.log(mChat);
+      if(mChat.length===0){
+        setMisTrue(true)
+          console.log("oo");
+          
+        }
+      
+       
+      {mIsTrue === true?
+        axiosInstencs.patch(`/add-chat/${id}`,{
+           chats:[...mChat,myId]
+        }).then((res)=>{
+          console.log(res.data);
+          navigate('/chat')
+        }).catch((err)=>console.log(err))
+       :
+         navigate('/chat')
+        console.log("user already in db");
+      }
+   
+
    
     // {chatPrev.map((c)=>
     //   c === id || c===""? console.log("true")
@@ -98,10 +131,10 @@ const renderContent=()=>{
       <div className=" fixed z-50">
         <Sidebar />
       </div>
-      <div className="fixed w-full z-50 pl-[224px]">
+      <div className="fixed w-full z-20 pl-[224px] max-lg:pl-0 ">
         <Search />
       </div>
-      <div className="py-6 px-4 bg-gray-50 pt-24 ml-[224px]">
+      <div className="py-6 px-4 bg-gray-50 pt-24 ml-[224px] max-lg:ml-0">
         <Link
           to={"/dashboard"}
           className="inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"

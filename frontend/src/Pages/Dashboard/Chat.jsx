@@ -11,12 +11,13 @@ function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
-
+  const [errors, setErrors] = useState([]);
   const [mentors, setMentors] = useState([]);
   const [selectedUser, setSelectedUser] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
   const [isOpen, setIsOpen] = useState("");
   const [userID, setUserID] = useState("");
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
     axiosInstencs
@@ -27,24 +28,32 @@ function Chat() {
         setUserID(res.data.user.id);
         // console.log(res.data);
       });
-  }, []);
-  useEffect(() => {
-    axiosInstencs.get(`/singleuser/${userID}`).then((res) => {
-      setCurrentUser(res.data.msg);
-      // console.log(userID);
-    });
-  }, [userID]);
+  }, [access_token]);
   useEffect(() => {
     axiosInstencs
-      .get("/allmentors")
+      .get(`/singleuser/${userID}`)
       .then((res) => {
-        // console.log(res.data.allMentors);
-        setMentors(res.data.allMentors);
+        setCurrentUser(res.data.msg);
+        console.log(res.data.msg.chats);
+        setChats(res.data.msg.chats);
+      })
+      .catch((err) => setErrors(err));
+  }, [userID]);
+  useEffect(() => {
+    // console.log(chats);
+
+    axiosInstencs
+      .post("/me", {
+        ids: chats,
+      })
+      .then((res) => {
+        console.log(res.data.msg);
+        setMentors(res.data.msg);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [chats]);
   const messageSelecte = (id) => {
     axiosInstencs
       .get(`/singleuser/${id}`)
