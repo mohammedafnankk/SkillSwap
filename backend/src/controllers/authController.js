@@ -54,7 +54,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password, rememberme } = req.body;
+  const { email, password } = req.body;
 
   let user = await User.findOne({ email });
 
@@ -66,30 +66,56 @@ export const login = async (req, res) => {
   }
   try {
     if (await bcrypt.compare(password, user.password)) {
+      const accessToken = generateAccessToken({user:req.body.email, id:user._id})
+      const refreshToken = generateRefreshToken({user:req.body.email})
+      res.json({accessToken:accessToken,refreshToken:refreshToken,id:user.id,skills:user.skills})
+
     } else {
       res.status(401).json({ err: "Password incorrect " });
     }
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
+    // const payload = {
+    //   user: {
+    //     id: user.id,
+    //   },
+    // };
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token: token, id: user._id, skills: user.skills });
-      }
-    );
+    // jwt.sign(
+    //   payload,
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: 3600 },
+    //   (err, token) => {
+    //     if (err) throw err;
+    //     res.json({ token: token, id: user._id, skills: user.skills });
+    //   }
+    // );
 
     // res.json({msg:"login successfully"})
   } catch (error) {
-    return res.status(500).json({ errr: error });
+    console.log(error);
+    
+    return res.status(500).json({ err: error });
   }
 };
+
+function generateAccessToken (user){
+  return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'1m'})
+}
+
+let refreshTokens=[]
+function generateRefreshToken(user){
+  const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN,{expiresIn:'5m'})
+  refreshTokens.push(refreshToken)
+  return refreshToken
+}
+
+export const tokenRefresh = async(req,res)=>{
+  if(!refreshTokens.includes(req.body.token)) res.status(400).json({err:"Refresh token invalid"})
+    refreshTokens = refreshTokens.filter((c)=> c!=req.body.token)
+
+  const accessToken = generateAccessToken({user:req.body.email})
+  const refreshToken = generateRefreshToken({user:req.body.email})
+  res.json({accessToken:accessToken,refreshToken:refreshToken})
+}
 
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
@@ -181,4 +207,4 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export default { registerUser, login, forgotPassword, resetPassword };
+export default { registerUser, login, forgotPassword, resetPassword ,tokenRefresh};

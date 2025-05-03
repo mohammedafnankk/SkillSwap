@@ -7,6 +7,7 @@ import Search from "./Search";
 
 function Dashboard() {
   const access_token = localStorage.getItem("access_token")
+  const refresh_token = localStorage.getItem("refresh_token")
   const [user, setUser] = useState([]);
   const [userID,setUserID]= useState("")
   const [mentor,setMentor] = useState([])
@@ -18,7 +19,22 @@ function Dashboard() {
   }).then((res)=>{
       const id =(res.data.user.id);
       setUserID(id)
+      // console.log(res.data.user.id);
       
+  }).catch((err)=>{
+    console.log("protect Error:",err);
+    
+  //   axiosInstencs.post('/refresh-token',{
+  //     token:refresh_token,
+  // }).then((res)=>{
+  //   console.log(res.data);
+    
+  //     localStorage.setItem("access_token",res.data.accessToken)
+  //     localStorage.setItem("refresh_token",res.data.refreshToken)
+  // }).catch((err)=>{
+  //     console.log(err)
+  //     // localStorage.clear()
+  // })
   })
   useEffect(() => {
     axiosInstencs.get(`/singleuser/${userID}`).then((res)=>{
@@ -34,7 +50,7 @@ function Dashboard() {
       
      
         axiosInstencs.get(`sug/${userID}`).then((res)=>{
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setMentor(res.data.data)
           
         })

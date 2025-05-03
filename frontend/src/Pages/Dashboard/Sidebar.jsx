@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import profileImg from "../../assets/images/user.jpg";
 import axiosInstencs from "../../axios/axiosInstence";
 
 function Sidebar() {
   const access_token = localStorage.getItem("access_token")
   const {pathname}=useLocation()
+  const navigate = useNavigate()
   const [user,setUser]= useState([])
   const [userID,setUserID]= useState("")
   const [isOpen,setIsOpen]= useState("isClose")
@@ -14,7 +15,7 @@ function Sidebar() {
     { name: "Home", to: "/dashboard", icon: " bx bx-home" },
     { name: "Chat", to: "/chat", icon: " bx bx-chat" },
     { name: "Forums", to: "/forums", icon: " bx bx-group" },
-    { name: "Profile", to: "/profile",child:"/profile/edit", icon: " bx bx-user" },
+    { name: "Profile", to: "/profile",child:`/profile/edit/${userID}`, icon: " bx bx-user" },
   ];
   useEffect(()=>{
     axiosInstencs.get('/protect',{
@@ -34,6 +35,11 @@ function Sidebar() {
 const toggleOpen=(e)=>{
 e.preventDefault()
 setOpenToggle((prev)=>prev === "isClose"?"isOpen":"isClose")
+}
+
+const logOut =()=>{
+  localStorage.clear()
+  navigate('/login')
 }
 
 
@@ -74,13 +80,13 @@ setOpenToggle((prev)=>prev === "isClose"?"isOpen":"isClose")
       <div className="px-2 py-2 text-md font-semibold">My Account</div>
       <div className="border w-full"></div>
       <Link to={'/profile'} className="inline-flex items-center px-2 rounded-sm text-gray-700 hover:bg-gray-100 py-2 text-sm"> <i className="fa-regular fa-user pr-4 "></i>Profile</Link>
-      <button className="inline-flex items-center px-2 rounded-sm text-gray-700 hover:bg-gray-100 py-2 text-sm"><i className="fa-solid fa-arrow-right-from-bracket pr-3.5"></i>Log out</button>
+      <button onClick={logOut} className="inline-flex items-center px-2 rounded-sm text-gray-700 hover:bg-gray-100 py-2 text-sm"><i className="fa-solid fa-arrow-right-from-bracket pr-3.5"></i>Log out</button>
       </div>
       :""}
       <div className="border-t p-2 pb-3 ">
-        <div className="hover:bg-purple-100 rounded-md max-lg:hover:bg-white">
+        <div onClick={()=>setIsOpen((prev)=>prev === "isClose" ? "isOpen":"isClose")} className="hover:bg-purple-100 rounded-md max-lg:hover:bg-white">
 
-        <button onClick={()=>setIsOpen((prev)=>prev === "isClose" ? "isOpen":"isClose")} className="text-sm flex cursor-pointer rounded-md hover:bg-gray-100 px-2  py-1">
+        <button  className="text-sm flex cursor-pointer rounded-md px-2  py-1">
           <img
             src={user.avatar?user.avatar:profileImg}
             alt=""

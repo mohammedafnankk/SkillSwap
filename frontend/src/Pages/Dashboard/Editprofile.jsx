@@ -217,7 +217,7 @@ function Editprofile() {
                 <div className="flex gap-6 max-sm:flex-col max-sm:items-center">
                   <span>
                     <img
-                      src={avatar.avatar === "" ? profileImg : avatar.avatar}
+                      src={avatar.avatar? avatar.avatar :profileImg }
                       alt=""
                       className="rounded-full h-32 w-32 object-cover"
                     />

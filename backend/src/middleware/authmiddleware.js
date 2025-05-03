@@ -12,8 +12,8 @@ const middle = (req,res,next)=>{
         return res.status(401).json({error:'Not token found'})
     }
     try {
-        const decoded = jwt.verify(token,process.env.JWT_SECRET)
-        req.user = decoded.user
+        const decoded = jwt.verify(token,process.env.ACCESS_TOKEN)
+        req.user = decoded
         next()
     } catch (error) {
         return res.status(401).json({error:'Token is invalid'})

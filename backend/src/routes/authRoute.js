@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, login, forgotPassword, resetPassword } from "../controllers/authController.js";
+import { registerUser, login, forgotPassword, resetPassword, tokenRefresh } from "../controllers/authController.js";
 import {
   students,
   mentors,
@@ -23,6 +23,7 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", login);
+router.post('/refresh-token',tokenRefresh)
 router.post("/forgot-password",forgotPassword)
 router.patch("/reset-password/:_id/:token",resetPassword)
 router.get("/allstudents", students);

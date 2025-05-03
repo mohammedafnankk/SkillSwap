@@ -38,11 +38,12 @@ function Signin() {
         password: password,
       })
       .then((res) => {
-        localStorage.setItem("access_token", res.data.token);
+        localStorage.setItem("access_token", res.data.accessToken);
+        localStorage.setItem("refresh_token", res.data.refreshToken);
         const userId = res.data.id;
         const skill = res.data.skills;
         // console.log(skill);
-        // console.log(res.data);
+      
 
         dispatch(setUser(userId));
 
