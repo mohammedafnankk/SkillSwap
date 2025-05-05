@@ -47,6 +47,8 @@ function Editprofile() {
 
     setSkills(values);
   };
+  console.log(skills);
+  
   useEffect(() => {
     axiosInstencs
       .get(`/singleuser/${id}`)
@@ -189,17 +191,29 @@ function Editprofile() {
       })
       .then((res) => {
         // console.log(res);
-        toast.success("Profile Updated Successfully");
-        navigate("/profile");
+        toast.success("Basic Info Updated");
+        // navigate("/profile");
+        setActiveTab("skills")
       })
       .catch((err) => console.log(err));
   };
 
-  const handleSkillDelete = (i) => {
-    console.log(i);
-    const updatedSkills = skills.filter((_, index) => index !== i);
-    console.log(updatedSkills);
-  };
+  // const handleSkillDelete = (i) => {
+  //   console.log(i);
+  //   const updatedSkills = skills.filter((_, index) => index !== i);
+  //   console.log(updatedSkills);
+  // };
+
+  const handleSkillsAdd =(e)=>{
+    e.preventDefault()
+    axiosInstencs.patch(`/personalinfo/${id}`,{
+    skills:skills
+    }).then((res)=>{
+      console.log(res.data);
+      toast.success("Skills Updated")
+      setActiveTab("basic-info")
+    }).catch((err)=>console.log(err))
+  }
   const renderContent = () => {
     switch (activeTab) {
       case "basic-info":
@@ -416,18 +430,18 @@ function Editprofile() {
                         </div>
                         <span>{item}</span>
                       </div>
-                      <div>
+                      {/* <div>
                         <i
                           class="cursor-pointer fa-regular fa-trash-can text-gray-600 hover:bg-red-50 hover:text-red-700 px-2.5 py-2 rounded-lg"
                           onClick={() => handleSkillDelete(i)}
                         ></i>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 ))}
                 <div className="border-b-2"></div>
                 <div className="space-y-4">
-                  <h3 className="font-medium">Select or type to skills</h3>
+                  <h3 className="font-medium">Select or type to skills & delete</h3>
                   <div className="">
                     {/* <div className="flex flex-col">
                       <label htmlFor="" className="text-sm">
@@ -466,7 +480,7 @@ function Editprofile() {
                     />
                   </div>
                   <div className="">
-                    <button className="text-white bg-purple-600 text-sm px-3 py-2 rounded-md w-full">
+                    <button onClick={handleSkillsAdd} className="text-white bg-purple-600 text-sm px-3 py-2 rounded-md w-full">
                       <i class="fa-regular fa-floppy-disk text-sm pr-2"></i>Save
                       Changes & Add Skills
                     </button>

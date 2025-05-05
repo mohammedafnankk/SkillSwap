@@ -18,6 +18,7 @@ import Editprofile from "./Pages/Dashboard/Editprofile";
 import MentorProfile from "./Pages/Dashboard/MentorProfile";
 import ForgotPassword from "./Pages/Login/ForgotPassword";
 import ResetPassword from "./Pages/Login/ResetPassword";
+import Allmentors from "./Pages/Dashboard/Allmentors";
 import "./App.css";
 
 function App() {
@@ -36,8 +37,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/forgot-password" element={<ForgotPassword/>}/>
+            <Route path="/reset-password/:id/:token" element={<ResetPassword/>}/>
           <Route element={<ProtectRoutes />}>
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/personalinfo/:id" element={<Personalinfo />} />
             <Route path="/mentor/:id/:myId" element={<MentorProfile />} />
             <Route path="/chat" element={<Chat/>}/>
@@ -45,8 +48,7 @@ function App() {
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/settings" element={<Settings/>}/>
             <Route path="/profile/edit/:id" element={<Editprofile/>}/>
-            <Route path="/forgot-password" element={<ForgotPassword/>}/>
-            <Route path="/reset-password/:id/:token" element={<ResetPassword/>}/>
+            <Route path="/all-mentors/:id" element={<Allmentors/>}/>
           </Route>
           <Route path="*" element={<Notfound/>}/>
         </Routes>

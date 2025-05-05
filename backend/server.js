@@ -12,6 +12,8 @@ import { Server } from 'socket.io';
 import path from 'path'
 import avatar from './src/controllers/avatar.js'
 import Message from "./src/models/Message.js";
+import User from "./src/models/User.js";
+import Mentor from "./src/models/Mentor.js";
 
 const PORT = process.env.PORT
 const app = express()
@@ -137,10 +139,9 @@ app.get('/chat', (req, res) => {
 
 
 // SOCKET.IO
+// const users ={}
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
-  const userId = socket.handshake.query.userId;
-  console.log(userId);
   
   socket.on('send_message', async (data) => {
     const { senderId, receiverId, text,time} = data;
@@ -159,8 +160,19 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('receive_message', newMessage);
   });
 
+  // socket.on("login",async (userID)=>{
+  //   console.log('a user ' + userID + " "+'online')
+  //   users[socket.id]= userID
+  //   let user = await User.findOneAndUpdate(userID,{ isOnline:true})
+  //   if(!user){
+  //     user= await Mentor.findOneAndUpdate(userID,{isOnline:true})
+  //   }
+  // })
+
+
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
+    // delete users[socket.id]
   });
 });
 

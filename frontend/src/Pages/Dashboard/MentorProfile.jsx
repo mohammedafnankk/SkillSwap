@@ -30,9 +30,37 @@ const renderContent=()=>{
                 </div>
             </div>
             )
-    case "Skills":
+    case "skills":
         return(
-            <div>Skills</div>
+          <div className="rounded-lg border bg-white shadow-md">
+          <div className="flex flex-col space-y-1.5 p-6">
+            <h1 className="text-2xl font-semibold ">Skills & Expertise</h1>
+            {/* <p className="text-gray-400 text-sm">Your current Skills</p> */}
+          </div>
+          <div className="p-6 pt-0">
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="grid grid-cols-3 gap-8 max-sm:grid-cols-1 max-sm:gap-3">
+                    {mentor.skills.map((skill, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <div className="text-white inline-flex items-center rounded-full px-2.5 py-0.5 text-xs bg-purple-600">
+                          {i + 1}
+                        </div>
+                        <span className="text-sm">{skill} </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         )
         case "reviews":
             return(
@@ -142,7 +170,7 @@ const renderContent=()=>{
           <i class="fa-solid fa-arrow-left"></i>Back to Dashboard
         </Link>
 
-        <div className="grid grid-cols-3 mt-8 gap-8">
+        <div className="grid grid-cols-3 mt-8 gap-8 max-lg:block">
           <div className="space-y-6">
             <div className="rounded-lg border shadow-md bg-white">
               <div className="p-6">
@@ -216,8 +244,8 @@ const renderContent=()=>{
               </div>
             </div>
           </div>
-          <div className="col-start-2 col-end-4" defaultValue="about">
-              <div className="grid grid-cols-3 bg-gray-200 p-1 rounded-md mb-6">
+          <div className="col-start-2 col-end-4 max-lg:mt-5" defaultValue="about">
+              <div className="grid grid-cols-3 bg-gray-200 p-1 rounded-md mb-6 max-sm:mb-2">
                 <button
                   onClick={() => setActiveTab("about")}
                   className={`rounded-sm px-3 py-1.5 text-sm ${

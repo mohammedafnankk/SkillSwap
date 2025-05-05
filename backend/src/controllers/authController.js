@@ -5,6 +5,7 @@ import Mentor from "../models/Mentor.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import BlackList from "../models/Blacklist.js";
 export const registerUser = async (req, res) => {
   const { username, email, password, role, joined_date } = req.body;
   try {
@@ -98,12 +99,12 @@ export const login = async (req, res) => {
 };
 
 function generateAccessToken (user){
-  return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'1m'})
+  return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'15m'})
 }
 
 let refreshTokens=[]
 function generateRefreshToken(user){
-  const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN,{expiresIn:'5m'})
+  const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN,{expiresIn:'15m'})
   refreshTokens.push(refreshToken)
   return refreshToken
 }
@@ -134,7 +135,7 @@ export const forgotPassword = async (req, res) => {
     //     id: user.id,
     //   },
     // };
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN, {
       expiresIn: "1m",
     });
     const link = `http://localhost:5173/reset-password/${user._id}/${token}`;
@@ -207,4 +208,29 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export default { registerUser, login, forgotPassword, resetPassword ,tokenRefresh};
+export const Logout = async(req,res)=>{
+  try {
+    const {accessToken,refreshToken}= req.body
+    let Access_token = await BlackList.findOne({access_token:accessToken})
+    let Refresh_token = await BlackList.findOne({refresh_token:refreshToken})
+    if(Access_token){
+      return res.json({msg:"access_Token already blacklisted"})
+    }
+    if(Refresh_token){
+      return res.json({msg:"refreshToken already blacklisted"})
+    }
+
+    Access_token = new BlackList({
+      access_token:accessToken,
+      refresh_token:refreshToken
+    })
+   await Access_token.save()
+   res.json({msg : "tokens added"})
+  } catch (error) {
+    res.json({err:error})
+    console.log(error);
+    
+  }
+}
+
+export default { registerUser, login, forgotPassword, resetPassword ,tokenRefresh,Logout};

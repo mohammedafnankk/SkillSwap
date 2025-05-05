@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axiosInstencs from "../../axios/axiosInstence";
 import profileImg from "../../assets/images/user.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Search from "./Search";
+import socket from "../../Socket";
 
 function Dashboard() {
+  const navigate = useNavigate()
   const access_token = localStorage.getItem("access_token")
-  const refresh_token = localStorage.getItem("refresh_token")
+ 
   const [user, setUser] = useState([]);
   const [userID,setUserID]= useState("")
   const [mentor,setMentor] = useState([])
@@ -36,6 +38,8 @@ function Dashboard() {
   //     // localStorage.clear()
   // })
   })
+
+
   useEffect(() => {
     axiosInstencs.get(`/singleuser/${userID}`).then((res)=>{
       // console.log(res.data.msg);
@@ -177,7 +181,7 @@ function Dashboard() {
           
           <div className="flex justify-between mb-6 items-center max-sm:mb-3">
             <h2 className="text-2xl font-semibold">Mentors</h2>
-            <button className="rounded-md px-[20px] py-[10px] text-purple-700 hover:bg-gray-100 text-sm">
+            <button onClick={()=>navigate(`/all-mentors/${user._id}`)} className="rounded-md px-[20px] py-[10px] text-purple-700 hover:bg-gray-100 text-sm">
               View all <i class="fa-solid fa-arrow-right pl-2"></i>
             </button>
           </div>

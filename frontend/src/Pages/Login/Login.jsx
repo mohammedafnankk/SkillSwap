@@ -77,7 +77,7 @@ function Signin() {
     <div className="">
       <Navbar />
 
-      <div className="grid grid-cols-2 gap-[10px] bg-white rounded-[15px] max-lg:grid-cols-1 max-h-[calc(100vh-77px)] max-sm:p-[10px] ">
+      <div className="grid grid-cols-2 gap-[10px] bg-white rounded-[15px max-lg:grid-cols-1 max-h-[calc(100vh-77px)] max-sm:p-[10px] ">
         <div className="flex   flex-col justify-center p-[60px] max-sm:p-[10px] max-sm:justify-star max-sm:mt-[80px]">
           <div className="pb-[40px] max-sm:pb-[100px">
             <h1 className="text-[32px] font-semibold">Welcome back!</h1>

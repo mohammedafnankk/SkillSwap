@@ -44,7 +44,7 @@ function ForgotPassword() {
           </Link>
         </div>
         <div className="border rounded-lg shadow-sm">
-          <div className="p-6 space-y-1.5 flex flex-col max-sm:pb-[20px ">
+          <div className="p-6 space-y-1.5 flex flex-col max-sm:pb-[20px max-sm:p-4">
             <h1 className="text-2xl font-semibold">Forgot Password</h1>
             <p className="text-sm text-gray-500">
               Enter your email address and we'll send you a link to reset your
@@ -52,7 +52,7 @@ function ForgotPassword() {
             </p>
           </div>
           {isSend === false ? (
-            <form action="" className=" p-6 pt-0">
+            <form action="" className=" p-6 pt-0 max-sm:p-4">
               <div>
                 <label className="text-sm ml-[5px] ">Email</label>
 

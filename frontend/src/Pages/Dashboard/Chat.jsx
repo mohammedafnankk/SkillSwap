@@ -4,10 +4,11 @@ import profileImg from "../../assets/images/user.jpg";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
 import axiosInstencs from "../../axios/axiosInstence";
+import { useNavigate } from "react-router-dom";
 function Chat() {
   const access_token = localStorage.getItem("access_token");
   // const [activeTab, setActiveTab] = useState("direct");
-
+   const navigate = useNavigate()
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
@@ -45,6 +46,7 @@ function Chat() {
     axiosInstencs
       .post("/me", {
         ids: chats,
+        role: currentUser.role,
       })
       .then((res) => {
         console.log(res.data.msg);
@@ -53,7 +55,7 @@ function Chat() {
       .catch((err) => {
         console.log(err);
       });
-  }, [chats]);
+  }, [chats, currentUser]);
   const messageSelecte = (id) => {
     axiosInstencs
       .get(`/singleuser/${id}`)
@@ -146,6 +148,10 @@ function Chat() {
         <Search />
       </div>
       <div className="py-6 px-4 ml-[224px] max-lg:ml-0 pt-24 bg-gray-50 h-screen">
+        <button onClick={()=>navigate(-1)} className="hidden max-lg:block inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200">
+          <i class="fa-solid fa-arrow-left pr-2"></i>Back
+        </button>
+
         <div>
           <h1 className="text-2xl font-bold mb-4">Messages</h1>
         </div>
@@ -183,15 +189,15 @@ function Chat() {
               />
             </div>
 
-            <div className="overflow-y-auto h-64">
+            <div className="overflow-y-auto h-64 p-1">
               {mentors.map((mentor, i) => (
                 <div key={i}>
                   <button
                     onClick={() => messageSelecte(mentor._id)}
-                    className={`w-full flex items-start p-2 rounded-d border-b ${
+                    className={`w-full flex items-start p-1.5 rounded-md border mb-1 flex items-center ${
                       mentor._id === selectedUser._id
-                        ? "bg-purple-100"
-                        : "bg-white hover:bg-gray-50"
+                        ? "bg-purple-50 max-sm:bg-gray-50 hover:max-sm:bg-gray-200"
+                        : "bg-white hover:bg-gray-50 max-sm:bg-gray-50 hover:max-sm:bg-gray-200"
                     }`}
                   >
                     <div className="relative">
@@ -208,11 +214,29 @@ function Chat() {
                     <div className="flex-1 pl-2">
                       <div className="flex justify-between items-baseline">
                         <h2 className="font-medium">{mentor.username}</h2>
-                        <span className="text-sm">4:21 PM</span>
+                        <span
+                          className={`text-sm ${
+                            mentor._id === selectedUser._id
+                              ? "hidden max-sm:block"
+                              : "block"
+                          }`}
+                        >
+                          4:21 PM
+                        </span>
                       </div>
                       <p className="text-[13px] text-[#94a3b8] text-start truncate w-56 max-lg:w-28 max-sm:w-52 ">
                         Thanks for the help with React hooks!
                       </p>
+                    </div>
+
+                    <div
+                      className={`pl-2 ${
+                        mentor._id === selectedUser._id
+                          ? "block max-sm:hidden"
+                          : "hidden"
+                      }`}
+                    >
+                      <i class="text-2xl fa-solid fa-angles-right text-purple-700"></i>
                     </div>
                   </button>
                 </div>

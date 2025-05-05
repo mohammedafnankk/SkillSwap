@@ -51,7 +51,10 @@ function Profile() {
               </p>
             </div>
 
-            <form action="" className="grid grid-cols-2 p-6 gap-6 max-sm:grid-cols-1 max-sm:gap-2 max-sm:p-5">
+            <form
+              action=""
+              className="grid grid-cols-2 p-6 gap-6 max-sm:grid-cols-1 max-sm:gap-2 max-sm:p-5"
+            >
               <div className="flex flex-col space-y-2 max-sm:space-y-1">
                 <label htmlFor="" className="text-sm font-medium">
                   Full Name
@@ -244,23 +247,31 @@ function Profile() {
       <div className="bg-gray-50 py-6 px-4 pt-24 ml-[224px] max-lg:ml-0 max-sm:px-3">
         <div className="space-y-8 max-sm:space-y-4">
           <div className="">
+            
+            <Link
+              to={"/dashboard"}
+              className="hidden max-lg:block max-lg:w-fit inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"
+            >
+              <i class="fa-solid fa-arrow-left max-lg:pr-2"></i>Back
+            </Link>
             <div>
               <div className="flex justify-between">
-
-              <h1 className="text-2xl font-bold max-sm:text-md">My Profile</h1>
-              <button
-                onClick={() => navigate(`/profile/edit/${userID}`)}
-                className="bg-purple-600 text-white text-sm rounded-md px-4 py-2 "
-              >
-                <i class="fa-regular fa-pen-to-square mr-2 max-sm:mr-0"></i><span className="max-sm:hidden">Edit Profile</span>
-              </button>
+                <h1 className="text-2xl font-bold max-sm:text-md">
+                  My Profile
+                </h1>
+                <button
+                  onClick={() => navigate(`/profile/edit/${userID}`)}
+                  className="bg-purple-600 text-white text-sm rounded-md px-4 py-2 "
+                >
+                  <i class="fa-regular fa-pen-to-square mr-2 max-sm:mr-0"></i>
+                  <span className="max-sm:hidden">Edit Profile</span>
+                </button>
               </div>
               <p className="text-gray-400 max-sm:text-xs">
                 Manage your profile information and account settings
               </p>
             </div>
-            <div>
-            </div>
+            <div></div>
           </div>
           <div className="grid grid-cols-3 gap-8 max-md:grid-cols-1">
             <div className="space-y-6">
@@ -269,7 +280,7 @@ function Profile() {
                   <div className="flex flex-col items-center text-center">
                     <div className="relative pb-3">
                       <img
-                        src={user.avatar?user.avatar:profileImg}
+                        src={user.avatar ? user.avatar : profileImg}
                         alt=""
                         className="w-32 h-32 rounded-full object-cover"
                       />
@@ -435,7 +446,10 @@ function Profile() {
                 ""
               )} */}
             </div>
-            <div className="col-start-2 col-end-4 max-md:col-start-1 max-md:col-end-1" defaultValue="profile">
+            <div
+              className="col-start-2 col-end-4 max-md:col-start-1 max-md:col-end-1"
+              defaultValue="profile"
+            >
               <div className="grid grid-cols-2 bg-gray-200 p-1 rounded-md mb-6">
                 <button
                   onClick={() => setActiveTab("profile")}

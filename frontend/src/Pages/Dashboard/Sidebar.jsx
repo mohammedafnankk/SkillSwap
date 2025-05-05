@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import profileImg from "../../assets/images/user.jpg";
 import axiosInstencs from "../../axios/axiosInstence";
+import socket from "../../Socket";
 
 function Sidebar() {
   const access_token = localStorage.getItem("access_token")
+  const refresh_token = localStorage.getItem("refresh_token")
   const {pathname}=useLocation()
   const navigate = useNavigate()
   const [user,setUser]= useState([])
@@ -26,25 +28,36 @@ function Sidebar() {
       
     })
   },[])
+  useEffect(()=>{
+    socket.emit('login',userID)
+  },[userID])
    useEffect(()=>{
     axiosInstencs.get(`/singleuser/${userID}`).then((res)=>{
       setUser(res.data.msg)
       
-    })
+    }).catch((err)=>console.log(err))
    },[userID])
 const toggleOpen=(e)=>{
 e.preventDefault()
 setOpenToggle((prev)=>prev === "isClose"?"isOpen":"isClose")
 }
 
+
 const logOut =()=>{
-  localStorage.clear()
+  axiosInstencs.post('/logout',{
+    accessToken:access_token,
+    refreshToken:refresh_token,
+  }).then((res)=>{
+    console.log(res.data);
+    localStorage.clear()
+    navigate('/login')
+  }).catch((err)=>console.log(err))
   navigate('/login')
 }
 
 
   return (
-    <div>
+    <div className={``}>
       <div className="relative hidden max-lg:block top-1">
 
       <button onClick={toggleOpen} className="absolute top-2.5 left-4 border px-2 pt-1 rounded-md text-3xl">{openToggle === "isOpen"?<i class="fa-solid fa-xmark text-purple-900"></i>:<i class="text-purple-900 fa-solid fa-bars"></i>}</button>
@@ -71,7 +84,7 @@ const logOut =()=>{
         ))}
         <div className="px-2 pt-4">
 
-        <button className=" hidden max-lg:text-lg max-lg:flex max-lg:justify-start text-sm font-medium flex items-center justify-center px-1 py-2 rounded-md text-gray-700 text-gray-700 hover:bg-gray-100 rounded-md w-full"><i className="bx bx-log-out pl-1.5 pr-2.5 text-2xl max-lg:text-3xl"></i>Log out</button>
+        <button onClick={logOut} className=" hidden max-lg:text-lg max-lg:flex max-lg:justify-start text-sm font-medium flex items-center justify-center px-1 py-2 rounded-md text-gray-700 text-gray-700 hover:bg-gray-100 rounded-md w-full"><i className="bx bx-log-out pl-1.5 pr-2.5 text-2xl max-lg:text-3xl"></i>Log out</button>
         </div>
       </div>
       {isOpen === "isOpen"?
@@ -84,7 +97,7 @@ const logOut =()=>{
       </div>
       :""}
       <div className="border-t p-2 pb-3 ">
-        <div onClick={()=>setIsOpen((prev)=>prev === "isClose" ? "isOpen":"isClose")} className="hover:bg-purple-100 rounded-md max-lg:hover:bg-white">
+        <div onClick={()=>setIsOpen((prev)=>prev === "isClose" ? "isOpen":"isClose")} className="hover:bg-gray-100 rounded-md max-lg:hover:bg-white">
 
         <button  className="text-sm flex cursor-pointer rounded-md px-2  py-1">
           <img

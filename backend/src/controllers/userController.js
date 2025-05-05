@@ -169,14 +169,6 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-export const logOut = async (req, res) => {
-  const { access_token, refresh_token } = req.body;
-  try {
-    //    const blackList
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 export const Chats = async (req, res) => {
   try {
@@ -228,19 +220,21 @@ export const findS = async (req, res) => {
   // }
   try {
     const ids = req.body.ids; // Example: ['661f5c1a77cccfb7e5a8b9d1', '661f5c1a77cccfb7e5a8b9d2']
-
+    const role = req.body.role
     if (!Array.isArray(ids)) {
       return res.status(400).json({ error: "ids must be an array" });
     }
 
     const objectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
+   if(role ==="Student"){
 
-    let ment = await User.find({ _id: { $in: objectIds } });
-    if(!ment){
-        ment = await User.find({ _id: { $in: objectIds } });
-    }
+     const  ment = await Mentor.find({ _id: { $in: objectIds } });
+     res.status(200).json({ msg: ment });
+   }else if(role === "Mentor"){
+    const  stud = await User.find({ _id: { $in: objectIds } });
+     res.status(200).json({ msg: stud });
+   }
 
-    res.status(200).json({ msg: ment });
   } catch (error) {
     console.error("Error finding users by IDs:", error);
     res.status(500).json({ error: "Server error" });

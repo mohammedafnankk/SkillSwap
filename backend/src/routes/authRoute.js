@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, login, forgotPassword, resetPassword, tokenRefresh } from "../controllers/authController.js";
+import { registerUser, login, forgotPassword, resetPassword, tokenRefresh, Logout } from "../controllers/authController.js";
 import {
   students,
   mentors,
@@ -41,6 +41,6 @@ router.get('/get',getMessage)
 router.patch('/add-chat/:_id',Chats)
 router.get('/my-mentors',myMentors)
 router.post('/me',findS)
-
+router.post('/logout',Logout)
 
 export default router;
