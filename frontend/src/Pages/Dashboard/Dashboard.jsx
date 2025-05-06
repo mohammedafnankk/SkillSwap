@@ -98,7 +98,7 @@ function Dashboard() {
             </button>
           </div>
           <div className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
-            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5">
+            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5 bg-white">
               <div className="pb-6">
                 <div className="flex justify-between items-start">
                   <i class="fa-solid fa-code p-4 rounded-lg bg-blue-100 text-blue-700 w-fit"></i>
@@ -118,7 +118,7 @@ function Dashboard() {
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
             </div>
-            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5">
+            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5 bg-white">
               <div className="pb-6">
                 <div className="flex justify-between items-start">
                   <i class="fa-solid fa-palette p-4 rounded-lg bg-purple-100 text-purple-700 w-fit"></i>
@@ -136,7 +136,7 @@ function Dashboard() {
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
             </div>
-            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5">
+            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5 bg-white">
               <div className="pb-6">
                 <div className="flex justify-between items-start">
                   <i class="fa-regular fa-lightbulb p-4 rounded-lg bg-yellow-100 text-yellow-700 w-fit"></i>
@@ -154,7 +154,7 @@ function Dashboard() {
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
             </div>
-            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5">
+            <div className="p-6 rounded-lg border hover:shadow-lg transition-shadow max-sm:p-5 bg-white">
               <div className="pb-6">
                 <div className="flex justify-between items-start">
                   <i class="fa-solid fa-book-open p-4 rounded-lg bg-green-100 text-green-700 w-fit"></i>
@@ -188,7 +188,7 @@ function Dashboard() {
           <div className="grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
             {mentor.map((m,i)=>(
 
-              <div key={i} className="rounded-lg border shadow-sm hover:shadow-md transition-shadow">
+              <div key={i} className="rounded-lg border shadow-sm hover:shadow-md transition-shadow bg-white">
               <div className="p-6 max-sm:p-3">
                 <div className="flex items-start space-x-4">
                   <span className="relative">

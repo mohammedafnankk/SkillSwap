@@ -7,6 +7,7 @@ import User from "../models/User.js";
 import Mentor from "../models/Mentor.js";
 import e from "express";
 
+
 export const students = async (req, res) => {
   try {
     const allStudents = await User.find({ role: "student" });
@@ -240,6 +241,9 @@ export const findS = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+
+
 
 export default {
   students,

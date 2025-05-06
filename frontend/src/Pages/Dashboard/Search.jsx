@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axiosInstencs from "../../axios/axiosInstence";
 
-function Search() {
+function Search({id}) {
+const [notifi,setNoti]= useState([])
+  useEffect(()=>{
+   axiosInstencs.get(`/notification/${id}`).then((res)=>{
+    console.log(res.data.msg)
+    setNoti(res.data.msg)
+   })
+  },[id])
+
   return (
     <div className="">
       <div className="flex justify-between px-4 py-4 bg-white border-b border- shadow-md ">
@@ -31,6 +40,11 @@ function Search() {
           </div>
         </div>
         <div>
+          {notifi.map((m,i)=>(
+            <div key={i}>
+              <p>{m.text}</p>
+            </div>
+          ))}
           <button className="inline-flex items-center justify-center rounded-md relative">
             {/* <i class="text-lg bx bx-bell p-1 px-2 hover:bg-gray-200 rounded-md"></i> */}
             <i class="fa-regular fa-bell fa-regular p-1 px-2 hover:bg-gray-200 rounded-md text-lg "></i>

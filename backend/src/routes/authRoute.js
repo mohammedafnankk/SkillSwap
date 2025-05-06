@@ -17,7 +17,7 @@ import {
 } from "../controllers/userController.js";
 import multer from "multer";
 import middle from "../middleware/authmiddleware.js";
-import { createMessage, getMessage } from "../controllers/chatController.js";
+import { createMessage, getMessage, notification } from "../controllers/chatController.js";
 
 const router = express.Router();
 
@@ -42,5 +42,6 @@ router.patch('/add-chat/:_id',Chats)
 router.get('/my-mentors',myMentors)
 router.post('/me',findS)
 router.post('/logout',Logout)
+router.get('/notification/:_id',notification)
 
 export default router;

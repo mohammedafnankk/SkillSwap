@@ -29,7 +29,7 @@ useEffect(()=>{
       <div className="fixed w-[83%] z-20 ml-[224px] max-lg:ml-0 max-lg:w-full">
         <Search />
       </div>
-      <div className=' ml-[224px] max-lg:ml-0 pt-24 bg-gray-50 h-screen'>
+      <div className=' ml-[224px] max-lg:ml-0 pt-24 bg-gray-50 pb-8'>
         <Link
                   to={"/dashboard"}
                   className="mx-6 max-sm:mx-4 inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"
@@ -47,7 +47,7 @@ useEffect(()=>{
                   <div className="grid grid-cols-2 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1 px-6 max-sm:px-4">
                     {mentor.map((m,i)=>(
         
-                      <div key={i} className="rounded-lg border shadow-sm hover:shadow-md transition-shadow">
+                      <div key={i} className="rounded-lg border shadow-sm hover:shadow-md transition-shadow bg-white">
                       <div className="p-6 max-sm:p-3">
                         <div className="flex items-start space-x-4">
                           <span className="relative">

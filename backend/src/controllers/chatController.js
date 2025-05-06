@@ -35,4 +35,15 @@ export const getMessage = async(req,res)=>{
       }
 }
 
+export const notification = async(req,res)=>{
+  try {
+    const id = req.params._id
+    const last = await Message.findById({_id:id})
+    res.status(200).json({msg:last})
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
 export default {createMessage ,getMessage}

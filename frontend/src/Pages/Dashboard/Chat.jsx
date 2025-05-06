@@ -19,6 +19,7 @@ function Chat() {
   const [isOpen, setIsOpen] = useState("");
   const [userID, setUserID] = useState("");
   const [chats, setChats] = useState([]);
+  const [messageId,setMessageId] = useState('')
 
   useEffect(() => {
     axiosInstencs
@@ -56,6 +57,7 @@ function Chat() {
         console.log(err);
       });
   }, [chats, currentUser]);
+  
   const messageSelecte = (id) => {
     axiosInstencs
       .get(`/singleuser/${id}`)
@@ -84,7 +86,8 @@ function Chat() {
         // console.log(dd);
 
         setMessages(res.data);
-        //  console.log(res.data);
+        //  console.log(res.data._id);
+        //  setMessageId(res.data._id)
 
         // console.log(res.data);
         // console.log("kkk");
@@ -145,7 +148,7 @@ function Chat() {
         <Sidebar />
       </div>
       <div className="fixed w-[83%] z-20 ml-[224px] max-lg:ml-0 max-lg:w-full">
-        <Search />
+        <Search id={messageId}/>
       </div>
       <div className="py-6 px-4 ml-[224px] max-lg:ml-0 pt-24 bg-gray-50 h-screen">
         <button onClick={()=>navigate(-1)} className="hidden max-lg:block inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200">
