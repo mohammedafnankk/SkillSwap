@@ -8,4 +8,5 @@ export default defineConfig({
     host: true, // Exposes to the local network
     port: 5173, // You can change this if needed
   },
+  base:'/',
 })
