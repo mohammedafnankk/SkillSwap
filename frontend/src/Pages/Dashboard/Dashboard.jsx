@@ -9,58 +9,73 @@ import socket from "../../Socket";
 function Dashboard() {
   const navigate = useNavigate()
   const access_token = localStorage.getItem("access_token")
+  const userID = localStorage.getItem("id")
+//  console.log(access_token,"access_token");
  
   const [user, setUser] = useState([]);
-  const [userID,setUserID]= useState("")
+  // const [userID,setUserID]= useState("")
   const [mentor,setMentor] = useState([])
 
-  axiosInstencs.get('/protect',{
-    headers:{
-      "Authorization" :`Bearer ${access_token}`
-    }
-  }).then((res)=>{
-      const id =(res.data.user.id);
-      setUserID(id)
-      // console.log(res.data.user.id);
-      
-  }).catch((err)=>{
-    console.log("protect Error:",err);
-    
-  //   axiosInstencs.post('/refresh-token',{
-  //     token:refresh_token,
+  // axiosInstencs.get('/protect',{
+  //   headers:{
+  //     "Authorization" :`Bearer ${access_token}`
+  //   }
   // }).then((res)=>{
-  //   console.log(res.data);
-    
-  //     localStorage.setItem("access_token",res.data.accessToken)
-  //     localStorage.setItem("refresh_token",res.data.refreshToken)
+  //     const id =(res.data.user.id);
+  //     setUserID(id)
+  //     // console.log(res.data.user.id);
+      
   // }).catch((err)=>{
-  //     console.log(err)
-  //     // localStorage.clear()
+  //   console.log("protect Error:",err);
+    
+  // //   axiosInstencs.post('/refresh-token',{
+  // //     token:refresh_token,
+  // // }).then((res)=>{
+  // //   console.log(res.data);
+    
+  // //     localStorage.setItem("access_token",res.data.accessToken)
+  // //     localStorage.setItem("refresh_token",res.data.refreshToken)
+  // // }).catch((err)=>{
+  // //     console.log(err)
+  // //     // localStorage.clear()
+  // // })
   // })
-  })
 
 
   useEffect(() => {
-    axiosInstencs.get(`/singleuser/${userID}`).then((res)=>{
-      // console.log(res.data.msg);
-      const userData = (res.data.msg)
-      setUser(userData)
+   
+    
+  
       
-    })
-  }, [userID]);
+      axiosInstencs.get(`/singleuser/${userID}`,{
+        headers:{
+              "Authorization" :`Bearer ${access_token}`
+            }
+      }).then((res)=>{
+        // console.log(res.data.msg);
+        const userData = (res.data.msg)
+        setUser(userData)
+        
+      })
+    
+  }, [userID,access_token]);
   useEffect(()=>{
 
     {user.role === "Student"?
       
      
-        axiosInstencs.get(`sug/${userID}`).then((res)=>{
+        axiosInstencs.get(`sug/${userID}`,{
+          headers:{
+                "Authorization" :`Bearer ${access_token}`
+              }
+        }).then((res)=>{
           // console.log(res.data.data);
           setMentor(res.data.data)
           
         })
     
       :""}
-  },[user,userID])
+  },[user,userID,access_token])
 
   return (
     <div className=" ">

@@ -7,6 +7,7 @@ import Search from "./Search";
 
 function MentorProfile() {
   const { id, myId } = useParams();
+  const access_token = localStorage.getItem("access_token")
   const navigate = useNavigate();
   const [mentor, setMentor] = useState([]);
   const [activeTab, setActiveTab] = useState("about");
@@ -72,23 +73,31 @@ function MentorProfile() {
     }
   };
   useEffect(() => {
-    axiosInstencs.get(`/mentor/${id}`).then((res) => {
-      setMentor("Mentor",res.data.mentor);
-      console.log(res.data.mentor);
+    axiosInstencs.get(`/mentor/${id}`,{
+      headers:{
+        "Authorization" :`Bearer ${access_token}`
+      }
+    }).then((res) => {
+      setMentor(res.data.mentor);
+      // console.log(res.data.mentor);
       setMchat(res.data.mentor.chats);
     }).catch((err)=>console.log(err))
-  }, [id]);
+  }, [id,access_token]);
 
   useEffect(() => {
     axiosInstencs
-      .get(`/singleuser/${myId}`)
+      .get(`/singleuser/${myId}`,{
+        headers:{
+          "Authorization" :`Bearer ${access_token}`
+        }
+      })
       .then((res) => {
         // console.log(res.data.msg);
         setChatPrev(res.data.msg.chats);
         setMy(res.data.msg.role);
       })
       .catch((err) => console.log(err));
-  }, [myId]);
+  }, [myId,access_token]);
 
   const message = () => {
     console.log(mY);
@@ -103,7 +112,11 @@ function MentorProfile() {
     {
       isTrue === true
         ? axiosInstencs
-            .patch(`/add-chat/${myId}`, {
+            .patch(`/add-chat/${myId}`,{
+              headers:{
+                "Authorization" :`Bearer ${access_token}`
+              }
+            }, {
               chats: [...chatPrev, id],
             })
             .then((res) => {
@@ -125,7 +138,11 @@ function MentorProfile() {
     {
       mIsTrue === true
         ? axiosInstencs
-            .patch(`/add-chat/${id}`, {
+            .patch(`/add-chat/${id}`,{
+              headers:{
+                "Authorization" :`Bearer ${access_token}`
+              }
+            }, {
               chats: [...mChat, myId],
             })
             .then((res) => {
@@ -153,6 +170,7 @@ function MentorProfile() {
     //   console.log(c ,"ids")
     // ))}
   };
+  
 
   return (
     <div>
@@ -197,6 +215,7 @@ function MentorProfile() {
                       <i class="fa-regular fa-calendar mr-2"></i>Joined{" "}
                       {mentor.joined_date}
                     </div>
+                    
                   </div>
 
                   <div className="w-full text-white">

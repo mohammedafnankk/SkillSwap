@@ -7,6 +7,7 @@ import axiosInstencs from "../../axios/axiosInstence";
 import { useNavigate } from "react-router-dom";
 function Chat() {
   const access_token = localStorage.getItem("access_token");
+  const userID = localStorage.getItem("id")
   // const [activeTab, setActiveTab] = useState("direct");
    const navigate = useNavigate()
   const [message, setMessage] = useState("");
@@ -17,35 +18,43 @@ function Chat() {
   const [selectedUser, setSelectedUser] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
   const [isOpen, setIsOpen] = useState("");
-  const [userID, setUserID] = useState("");
+  // const [userID, setUserID] = useState("");
   const [chats, setChats] = useState([]);
-  const [messageId,setMessageId] = useState('')
+  // const [messageId,setMessageId] = useState('')
 
+  // useEffect(() => {
+  //   axiosInstencs
+  //     .get("/protect", {
+  //       headers: { Authorization: `Bearer ${access_token}` },
+  //     })
+  //     .then((res) => {
+  //       setUserID(res.data.user.id);
+  //       // console.log(res.data);
+  //     });
+  // }, [access_token]);
   useEffect(() => {
     axiosInstencs
-      .get("/protect", {
-        headers: { Authorization: `Bearer ${access_token}` },
+      .get(`/singleuser/${userID}`,{
+        headers:{
+          "Authorization" :`Bearer ${access_token}`
+        }
       })
-      .then((res) => {
-        setUserID(res.data.user.id);
-        // console.log(res.data);
-      });
-  }, [access_token]);
-  useEffect(() => {
-    axiosInstencs
-      .get(`/singleuser/${userID}`)
       .then((res) => {
         setCurrentUser(res.data.msg);
         console.log(res.data.msg.chats);
         setChats(res.data.msg.chats);
       })
       .catch((err) => setErrors(err));
-  }, [userID]);
+  }, [userID,access_token]);
   useEffect(() => {
     // console.log(chats);
 
     axiosInstencs
-      .post("/me", {
+      .post("/me",{
+        headers:{
+          "Authorization" :`Bearer ${access_token}`
+        }
+      }, {
         ids: chats,
         role: currentUser.role,
       })
@@ -56,11 +65,15 @@ function Chat() {
       .catch((err) => {
         console.log(err);
       });
-  }, [chats, currentUser]);
+  }, [chats, currentUser,access_token]);
   
   const messageSelecte = (id) => {
     axiosInstencs
-      .get(`/singleuser/${id}`)
+      .get(`/singleuser/${id}`,{
+        headers:{
+          "Authorization" :`Bearer ${access_token}`
+        }
+      })
       .then((res) => {
         setSelectedUser(res.data.msg);
         setIsSelected(true);
@@ -73,7 +86,11 @@ function Chat() {
     // console.log("lll");
 
     axiosInstencs
-      .get(`/get`, {
+      .get(`/get`,{
+        headers:{
+          "Authorization" :`Bearer ${access_token}`
+        }
+      }, {
         params: {
           senderId: currentUser._id,
           receiverId: id,
@@ -148,7 +165,7 @@ function Chat() {
         <Sidebar />
       </div>
       <div className="fixed w-[83%] z-20 ml-[224px] max-lg:ml-0 max-lg:w-full">
-        <Search id={messageId}/>
+        <Search/>
       </div>
       <div className="py-6 px-4 ml-[224px] max-lg:ml-0 pt-24 bg-gray-50 h-screen">
         <button onClick={()=>navigate(-1)} className="hidden max-lg:block inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200">

@@ -8,17 +8,21 @@ import { Link, useParams } from 'react-router-dom'
 function Allmentors() {
     const {id} = useParams()
 const [mentor ,setMentor]= useState([])
-
+const access_token = localStorage.getItem("access_token")
 
 
 
 useEffect(()=>{
-    axiosInstencs.get('/allmentors').then((res)=>{
+    axiosInstencs.get('/allmentors',{
+      headers:{
+        "Authorization" :`Bearer ${access_token}`
+      }
+    }).then((res)=>{
         console.log(res.data);
         setMentor(res.data.allMentors)
         
     }).catch((err)=>console.log(err))
-},[])
+},[access_token])
 
 
   return (

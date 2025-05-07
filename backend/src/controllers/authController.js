@@ -68,7 +68,7 @@ export const login = async (req, res) => {
   try {
     if (await bcrypt.compare(password, user.password)) {
       const accessToken = generateAccessToken({user:req.body.email, id:user._id})
-      const refreshToken = generateRefreshToken({user:req.body.email})
+      const refreshToken = generateRefreshToken({user:req.body.email,id:user._id})
       res.json({accessToken:accessToken,refreshToken:refreshToken,id:user.id,skills:user.skills})
 
     } else {
@@ -99,23 +99,34 @@ export const login = async (req, res) => {
 };
 
 function generateAccessToken (user){
-  return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'15m'})
+  console.log(user);
+  
+  return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'15s'})
 }
 
 let refreshTokens=[]
 function generateRefreshToken(user){
-  const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN,{expiresIn:'15m'})
+  console.log(user);
+  const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN,{expiresIn:'2m'})
   refreshTokens.push(refreshToken)
   return refreshToken
 }
 
 export const tokenRefresh = async(req,res)=>{
-  if(!refreshTokens.includes(req.body.token)) res.status(400).json({err:"Refresh token invalid"})
-    refreshTokens = refreshTokens.filter((c)=> c!=req.body.token)
-
-  const accessToken = generateAccessToken({user:req.body.email})
-  const refreshToken = generateRefreshToken({user:req.body.email})
-  res.json({accessToken:accessToken,refreshToken:refreshToken})
+  try {
+    
+    if(!refreshTokens.includes(req.body.token)) return res.status(400).json({err:"Refresh token invalid"})
+      refreshTokens = refreshTokens.filter((c)=> c!=req.body.token)
+    
+    
+    const accessToken = generateAccessToken({user:req.body.email })
+    const refreshToken = generateRefreshToken({user:req.body.email})
+    res.json({accessToken:accessToken,refreshToken:refreshToken})
+  } catch (error) {
+    console.log("refresh error",error);
+    
+    res.json({err:error})
+  }
 }
 
 export const forgotPassword = async (req, res) => {

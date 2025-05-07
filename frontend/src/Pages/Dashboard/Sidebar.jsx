@@ -7,10 +7,11 @@ import socket from "../../Socket";
 function Sidebar() {
   const access_token = localStorage.getItem("access_token")
   const refresh_token = localStorage.getItem("refresh_token")
+  const userID = localStorage.getItem("id")
   const {pathname}=useLocation()
   const navigate = useNavigate()
   const [user,setUser]= useState([])
-  const [userID,setUserID]= useState("")
+  // const [userID,setUserID]= useState("")
   const [isOpen,setIsOpen]= useState("isClose")
   const [openToggle,setOpenToggle]= useState("isClose")
   const navigats = [
@@ -19,24 +20,28 @@ function Sidebar() {
     { name: "Forums", to: "/forums", icon: " bx bx-group" },
     { name: "Profile", to: "/profile",child:`/profile/edit/${userID}`, icon: " bx bx-user" },
   ];
-  useEffect(()=>{
-    axiosInstencs.get('/protect',{
-      headers:{"Authorization" : `Bearer ${access_token}`}
-    }).then((res)=>{
-      setUserID(res.data.user.id)
-      // console.log(res.data);
+  // useEffect(()=>{
+  //   axiosInstencs.get('/protect',{
+  //     headers:{"Authorization" : `Bearer ${access_token}`}
+  //   }).then((res)=>{
+  //     setUserID(res.data.user.id)
+  //     // console.log(res.data);
       
-    })
-  },[])
+  //   })
+  // },[access_token])
   useEffect(()=>{
     socket.emit('login',userID)
   },[userID])
    useEffect(()=>{
-    axiosInstencs.get(`/singleuser/${userID}`).then((res)=>{
+    axiosInstencs.get(`/singleuser/${userID}`,{
+      headers:{
+        "Authorization" :`Bearer ${access_token}`
+      }
+    }).then((res)=>{
       setUser(res.data.msg)
       
     }).catch((err)=>console.log(err))
-   },[userID])
+   },[userID,access_token])
 const toggleOpen=(e)=>{
 e.preventDefault()
 setOpenToggle((prev)=>prev === "isClose"?"isOpen":"isClose")

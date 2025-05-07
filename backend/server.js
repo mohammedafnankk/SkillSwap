@@ -35,6 +35,8 @@ app.use(express.json())
 app.use('/',authUser)
 app.use('/avatarupload',avatar)
 app.get('/protect',middle,(req,res)=>{
+  // console.log("uu",req.user.id);
+  
     res.json({msg:"protect",user:req.user})
 })
 

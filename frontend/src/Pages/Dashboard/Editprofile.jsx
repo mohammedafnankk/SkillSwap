@@ -17,6 +17,7 @@ function Editprofile() {
   const [skills, setSkills] = useState([]);
   let { id } = useParams();
   const navigate = useNavigate();
+  const access_token = localStorage.getItem("access_token")
   const [activeTab, setActiveTab] = useState("basic-info");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -51,7 +52,11 @@ function Editprofile() {
   
   useEffect(() => {
     axiosInstencs
-      .get(`/singleuser/${id}`)
+      .get(`/singleuser/${id}`,{
+        headers:{
+          "Authorization" :`Bearer ${access_token}`
+        }
+      })
       .then((res) => {
         // console.log(res.data);
         setAvatar(res.data.msg);
@@ -65,7 +70,7 @@ function Editprofile() {
         setWebsite(res.data.msg.website);
       })
       .catch((err) => console.log(err));
-  }, [id]);
+  }, [id,access_token]);
   // console.log(avatar);
 
   const customStyles = {

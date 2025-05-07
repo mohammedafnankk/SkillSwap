@@ -40,6 +40,7 @@ function Signin() {
       .then((res) => {
         localStorage.setItem("access_token", res.data.accessToken);
         localStorage.setItem("refresh_token", res.data.refreshToken);
+        localStorage.setItem("id",res.data.id)
         const userId = res.data.id;
         const skill = res.data.skills;
         // console.log(skill);

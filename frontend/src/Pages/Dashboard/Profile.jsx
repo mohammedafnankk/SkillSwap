@@ -8,11 +8,12 @@ import toast from "react-hot-toast";
 
 function Profile() {
   const access_token = localStorage.getItem("access_token");
+  const userID = localStorage.getItem("id")
   const navigate = useNavigate();
   const inputRef = useRef();
   const [language, setLanguage] = useState([]);
   const [activeTab, setActiveTab] = useState("profile");
-  const [userID, setUserID] = useState("");
+  // const [userID, setUserID] = useState("");
   const [user, setUser] = useState([]);
   // const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState("");
   const addLanguage = (e) => {
@@ -20,23 +21,27 @@ function Profile() {
     console.log(language);
   };
 
-  axiosInstencs
-    .get("/protect", {
-      headers: { Authorization: `Bearer ${access_token}` },
-    })
-    .then((res) => {
-      const id = res.data.user.id;
-      setUserID(id);
-    })
-    .catch((err) => console.log(err));
+  // axiosInstencs
+  //   .get("/protect", {
+  //     headers: { Authorization: `Bearer ${access_token}` },
+  //   })
+  //   .then((res) => {
+  //     const id = res.data.user.id;
+  //     setUserID(id);
+  //   })
+  //   .catch((err) => console.log(err));
 
   // console.log(userID);
 
   useEffect(() => {
-    axiosInstencs.get(`/singleuser/${userID}`).then((res) => {
+    axiosInstencs.get(`/singleuser/${userID}`,{
+      headers:{
+        "Authorization" :`Bearer ${access_token}`
+      }
+    }).then((res) => {
       setUser(res.data.msg);
     });
-  }, [userID]);
+  }, [userID,access_token]);
   // console.log(skills);
 
   const renderContent = () => {
