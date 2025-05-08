@@ -96,12 +96,12 @@ function Dashboard() {
               learning journey.
             </p>
             <div className="flex gap-4">
-              <button className="text-sm px-[20px] py-[10px] rounded-md bg-white hover:bg-gray-100 text-purple-700 font-medium">
-                Find a Mentor
-              </button>
-              <button className="text-sm px-[20px] py-[10px] rounded-md bg-gradient-to-br from-indigo-700 to-purple-600 hover:bg-gray-100 text-white font-medium">
+              <a href="#mentors" className="text-sm px-[20px] py-[10px] rounded-md bg-white hover:bg-gray-100 text-purple-700 font-medium">
+              Find your skill based Mentors
+              </a>
+              {/* <button className="text-sm px-[20px] py-[10px] rounded-md bg-gradient-to-br from-indigo-700 to-purple-600 hover:bg-gray-100 text-white font-medium">
                 Explore Skills
-              </button>
+              </button> */}
             </div>
           </div>
         </section>
@@ -192,7 +192,7 @@ function Dashboard() {
         {user.role === "Mentor"?"":
         <div>
 
-        <section>
+        <section id="mentors">
           
           <div className="flex justify-between mb-6 items-center max-sm:mb-3">
             <h2 className="text-2xl font-semibold">Mentors</h2>

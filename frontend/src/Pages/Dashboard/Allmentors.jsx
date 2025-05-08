@@ -35,10 +35,10 @@ useEffect(()=>{
       </div>
       <div className=' ml-[224px] max-lg:ml-0 pt-24 bg-gray-50 pb-8'>
         <Link
-                  to={"/dashboard"}
+                  to={-1}
                   className="mx-6 max-sm:mx-4 inline-flex items-center justify-center gap-2 rounded-md text-sm px-4 py-2 mb-4 hover:bg-slate-200"
                 >
-                  <i class="fa-solid fa-arrow-left"></i>Back to Dashboard
+                  <i class="fa-solid fa-arrow-left"></i>Back
                 </Link>
         <section>
                   

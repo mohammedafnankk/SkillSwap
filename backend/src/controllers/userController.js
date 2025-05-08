@@ -6,6 +6,7 @@ import multer from "multer";
 import User from "../models/User.js";
 import Mentor from "../models/Mentor.js";
 import e from "express";
+import Forums from "../models/Forums.js";
 
 
 export const students = async (req, res) => {
@@ -242,7 +243,48 @@ export const findS = async (req, res) => {
   }
 };
 
+export const forums = async (req,res)=>{
+  
+  try {
+    const id = req.params._id
+    const {username , avatar, question} = req.body;
 
+    const response = await new Forums({
+      userId:id,
+      username:username,
+      avatar:avatar,
+      question:question,
+
+    })
+    await response.save()
+    res.status(200).json({msg:response})
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+export const allQuestions = async (req,res)=>{
+  try {
+    const questions = await Forums.find()
+    res.status(200).json({questions})
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+export const addAnswer = async (req,res)=>{
+  try {
+    const id = req.params._id
+    const Addanswer = await Forums.findByIdAndUpdate(id,req.body)
+    res.status(200).json({msg:"answer added",Addanswer})
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
 
 
 export default {
@@ -257,4 +299,6 @@ export default {
   Chats,
   myMentors,
   findS,
+  forums,
+  addAnswer,
 };

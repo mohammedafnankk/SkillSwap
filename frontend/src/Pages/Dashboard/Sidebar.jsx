@@ -17,7 +17,7 @@ function Sidebar() {
   const navigats = [
     { name: "Home", to: "/dashboard", icon: " bx bx-home" },
     { name: "Chat", to: "/chat", icon: " bx bx-chat" },
-    { name: "Forums", to: "/forums", icon: " bx bx-group" },
+    { name: "Forums", to: `/forums/${userID}`, icon: " bx bx-group" },
     { name: "Profile", to: "/profile",child:`/profile/edit/${userID}`, icon: " bx bx-user" },
   ];
   // useEffect(()=>{

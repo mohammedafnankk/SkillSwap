@@ -14,7 +14,7 @@ axiosInstencs.interceptors.response.use(
     if (error.response.status === 401 || error.response.status === 404) {
       
       axiosInstencs.post('/refresh-token',{token:refreshToken}).then((res)=>{
-        console.log(res.data);
+        // console.log(res.data);
         localStorage.setItem("access_token",res.data.accessToken)
         localStorage.setItem("refresh_token",res.data.refreshToken)
         window.location.reload()

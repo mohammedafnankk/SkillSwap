@@ -14,6 +14,9 @@ import {
   Chats,
   myMentors,
   findS,
+  forums,
+  allQuestions,
+  addAnswer,
 } from "../controllers/userController.js";
 import multer from "multer";
 import middle from "../middleware/authmiddleware.js";
@@ -37,11 +40,14 @@ router.delete("/deleteskill/:_id",middle, skillDelete);
 router.delete("/deleteuser/:_id",middle, deleteUser);
 router.get("/sug/:_id",middle, sug);
 router.post('/send',createMessage)
-router.get('/get',middle,getMessage)
+router.get('/get',getMessage)
 router.patch('/add-chat/:_id',middle,Chats)
 router.get('/my-mentors',middle,myMentors)
-router.post('/me',middle,findS)
+router.post('/me',findS)
 router.post('/logout',Logout)
 router.get('/notification/:_id',middle,notification)
+router.post('/add-new-question/:_id',forums)
+router.get('/all-questions',allQuestions)
+router.post('/add-answer/:_id',addAnswer)
 
 export default router;

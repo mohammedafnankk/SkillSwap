@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 function Chat() {
   const access_token = localStorage.getItem("access_token");
   const userID = localStorage.getItem("id")
+  // console.log(access_token);
+  
   // const [activeTab, setActiveTab] = useState("direct");
    const navigate = useNavigate()
   const [message, setMessage] = useState("");
@@ -50,11 +52,7 @@ function Chat() {
     // console.log(chats);
 
     axiosInstencs
-      .post("/me",{
-        headers:{
-          "Authorization" :`Bearer ${access_token}`
-        }
-      }, {
+      .post("/me", {
         ids: chats,
         role: currentUser.role,
       })
@@ -87,10 +85,6 @@ function Chat() {
 
     axiosInstencs
       .get(`/get`,{
-        headers:{
-          "Authorization" :`Bearer ${access_token}`
-        }
-      }, {
         params: {
           senderId: currentUser._id,
           receiverId: id,
