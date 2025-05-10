@@ -13,7 +13,7 @@ const middle = (req,res,next)=>{
     }
     try {
         const decoded = jwt.verify(token,process.env.ACCESS_TOKEN)
-        console.log("middle",decoded,"middle");
+        // console.log("middle",decoded,"middle");
         
         req.user = decoded
         // console.log(decoded);

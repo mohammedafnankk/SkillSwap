@@ -44,7 +44,7 @@ function App() {
             <Route path="/personalinfo/:id" element={<Personalinfo />} />
             <Route path="/mentor/:id/:myId" element={<MentorProfile />} />
             <Route path="/chat" element={<Chat/>}/>
-            <Route path="/forums/:id" element={<Forums/>}/>
+            <Route path="/forums/:userId" element={<Forums/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/settings" element={<Settings/>}/>
             <Route path="/profile/edit/:id" element={<Editprofile/>}/>

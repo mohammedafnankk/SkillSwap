@@ -48,6 +48,6 @@ router.post('/logout',Logout)
 router.get('/notification/:_id',middle,notification)
 router.post('/add-new-question/:_id',forums)
 router.get('/all-questions',allQuestions)
-router.post('/add-answer/:_id',addAnswer)
+router.patch('/add-answer/:_id',addAnswer)
 
 export default router;

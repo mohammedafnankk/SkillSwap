@@ -99,15 +99,15 @@ export const login = async (req, res) => {
 };
 
 function generateAccessToken (user){
-  console.log(user);
+  // console.log(user);
   
-  return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'15s'})
+  return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'5m'})
 }
 
 let refreshTokens=[]
 function generateRefreshToken(user){
-  console.log(user);
-  const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN,{expiresIn:'2m'})
+  // console.log(user);
+  const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN,{expiresIn:'15m'})
   refreshTokens.push(refreshToken)
   return refreshToken
 }
